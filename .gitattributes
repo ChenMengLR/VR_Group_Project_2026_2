@@ -2,10 +2,10 @@
 *.cs text eol=lf
 *.json text eol=lf
 *.md text eol=lf
-*.meta text eol=lf
-*.unity text eol=lf
+*.meta text eol=lf -whitespace
+*.unity text eol=lf -whitespace
 *.prefab text eol=lf
-*.mat text eol=lf
+*.mat text eol=lf -whitespace
 *.asset text eol=lf
 *.anim text eol=lf
 *.controller text eol=lf

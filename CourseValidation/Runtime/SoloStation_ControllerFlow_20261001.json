@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-01",
+  "environment": {
+    "unity": "6000.3.24f1",
+    "metaXrSimulatorAndOperator": "205",
+    "projectPathAlias": "V:\\",
+    "scene": "Assets/01_Scenes/Solo_SpaceStation.unity",
+    "device": "Windows Editor with Meta XR Simulator; no Quest hardware"
+  },
+  "testMethod": "Automated OpenXR Operator controller/headset injection with Unity Pipeline readback; one continuous successful Play session",
+  "steps": [
+    {
+      "action": "Right controller Thumbstick Y=1 then Y=0 after aiming at RepairPad_TeleportHotspot",
+      "observed": {
+        "teleportInteractorState": "Hover",
+        "teleportCandidateParent": "RepairPad_TeleportHotspot",
+        "teleportTargetWorld": [1.5, 0.089, 0.75],
+        "headBeforeWorld": [0.0, 1.7, 0.0],
+        "headAfterWorld": [1.5, 1.789, 0.846]
+      }
+    },
+    {
+      "action": "Right controller grip pose over EnergyCore_GrabAndRelease; Grip=1",
+      "observed": {
+        "grabInteractorState": "Select",
+        "selectedObject": "EnergyCore_GrabAndRelease",
+        "grabPoints": 1
+      }
+    },
+    {
+      "action": "Move held right controller grip pose to socket",
+      "observed": {
+        "coreWorld": [1.85, 1.01, 1.3],
+        "socketWorld": [1.85, 1.01, 1.3],
+        "distanceMeters": 0.000000168587391,
+        "grabPoints": 1
+      }
+    },
+    {
+      "action": "Right controller Grip=0",
+      "observed": {
+        "grabPoints": 0,
+        "missionInserted": true,
+        "hatchClosedLocalY": 1.24,
+        "hatchOpenLocalY": 3.74
+      }
+    },
+    {
+      "action": "Smooth simulated physical headset movement through open hatch, not controller locomotion",
+      "observed": {
+        "headAtExitWorld": [4.45, 1.789, 0.75],
+        "missionEscaped": true,
+        "status": "MISSION COMPLETE\nB / R TO REPLAY"
+      }
+    }
+  ],
+  "finalImage": "CourseValidation/Runtime/SoloStation_ControllerFlow_Final.png",
+  "notes": [
+    "An earlier Play session exited unexpectedly after a verified teleport; it is excluded from the continuous successful flow above.",
+    "No Quest hardware, APK installation, or student-operated demonstration was tested."
+  ]
+}

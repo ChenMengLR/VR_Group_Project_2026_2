@@ -30,6 +30,16 @@ namespace CourseSetup
             Debug.Log("Week 03 ready: Meta XR Simulator; this is computer practice, not Quest hardware validation.");
         }
 
+        [MenuItem("Course/Open Solo Space Station", priority = 2)]
+        public static void OpenSoloStation()
+        {
+            Guard();
+            SetDesktopStartup(true);
+            EditorSceneManager.OpenScene(SoloStationBuilder.ScenePath);
+            EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Activate");
+            Debug.Log("Solo station ready in Meta XR Simulator. Use the settings menu for Teleport, grab the core, and insert it into the socket.");
+        }
+
         public static void SetDesktopStartup(bool enabled)
         {
             XRGeneralSettingsPerBuildTarget store;

@@ -1,8 +1,8 @@
 # VR Project 2026 2
 
-最新状态见 [个人作业进度](Docs/Current_Personal_Assignment_Status.md)：仓库已公开，第 2 周已在 Notion 提交仓库链接、自动协助 Play 验证视频和 Inspector 截图；第 3 周电脑端功能已验证，已按用户确认采用 Meta XR Simulator 录制来替代 Quest 真机演示，未使用 Quest。连续录像完成、上传和课程页提交状态以本轮证据核验为准。小组任务按用户要求忽略。
+最新个人作业状态见 [个人作业进度](Docs/Current_Personal_Assignment_Status.md)。2026 年 10 月 1 日用户又启动独立一人的小组项目，项目说明见 [《失联空间站：重启舱门》](Docs/Solo_SpaceStation_Project.md)。
 
-WANG HAOBIN 的个人 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit 学习抓取，第 3 周使用 Meta XR Interaction SDK 学习移动与传送。当前没有 Quest 设备；本次按用户确认使用 Meta XR Simulator 完成电脑端演示，未把模拟器描述为 Quest 真机。课程方是否接受该替代方式仍需以课程要求或教师意见为准；小组任务按用户要求不在本次范围内。
+WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit 学习抓取，第 3 周使用 Meta XR Interaction SDK 学习移动与传送。独立小组项目复用第 3 周交互基础，制作单房间空间站任务。当前没有 Quest 设备；以前的电脑端演示使用 Meta XR Simulator，未把模拟器描述为 Quest 真机。课程方是否接受该替代方式仍需以课程要求或教师意见为准。
 
 ## 打开和练习
 
@@ -12,6 +12,7 @@ WANG HAOBIN 的个人 VR 课程项目。第 2 周使用 Unity XR Interaction Too
 
 - `Course > Open Week 02 Computer Practice`：打开第 2 周场景、关闭 Meta 模拟器及桌面 OpenXR 自动启动，使用 XRI 键鼠模拟器。
 - `Course > Open Week 03 Computer Practice`：打开第 3 周场景，启用桌面 OpenXR 自动启动及本机 Meta 模拟器。
+- `Course > Open Solo Space Station`：打开独立小组项目场景，启用桌面 OpenXR 与 Meta XR Simulator。
 
 第 2 周点击 Game 获得焦点后，用 WASD 移动，H 切换头部，[ / ] 选择左/右设备。G 抓取右手、T 激活右手；左手加 Shift。反复按同一括号会切换 Controller/Hand，练习时保持 Controller。详见 Docs 中的课程指南。
 
@@ -24,13 +25,15 @@ WANG HAOBIN 的个人 VR 课程项目。第 2 周使用 Unity XR Interaction Too
 - Meta XR All-in-One / Interaction SDK `205.0.0`；独立 Windows Meta XR Simulator `205.0`。
 - Android Build Support；OpenJDK `17.0.18+8`；NDK `27.2.12479018`（r27c）；SDK Build/Platform Tools `36.0.0`；Command-line Tools `16.0`；CMake `3.22.1`。
 
-Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Support。课程使用 ControllersOnly，不启用真实手追踪。Android 工具链已核验，但尚未进行 APK 构建或 Quest 真机测试。
+Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Support。课程使用 ControllersOnly，不启用真实手追踪。独立小组场景已成功构建 Android APK，并在 Windows 编辑器的 Meta XR Simulator 中走通控制器传送、抓取、插入核心与开门流程；尚未进行 Quest 真机测试。
 
 ## 场景和任务
 
 `Assets/01_Scenes/Week02_XR_Basics.unity` 包含一个官方 XR Origin、一个 XR Interaction Simulator、静态地面、两个方块和独立球体 ExtensionObject。颜色依次表现普通、悬停、选择、激活状态。RotateObject 脚本保留，最终抓取场景中禁用旋转组件。
 
 `Assets/01_Scenes/Week03_Meta_Locomotion.unity` 基于官方 LocomotionExamples 副本，保留原来的 Meta Rig、移动环境与设置 UI。新增绿色 StartZone、蓝色 TargetZone、支持 SnapPositionAndRotation 的热点，以及带真实 Meta Grab/Rigidbody 的 MissionObject。官方原样例未改动。
+
+`Assets/01_Scenes/Solo_SpaceStation.unity` 是独立小组项目《失联空间站：重启舱门》。保留 Meta Rig、控制器交互和移动设置 UI，关闭旧场景环境；新建封闭空间站、维修台、可抓取能量核心、插槽、滑动舱门、出口与空间音效。把能量核心抓起并释放在插槽内才会通电开门。此场景也是当前 Android 构建的启动场景。
 
 ## 核验记录
 
@@ -40,6 +43,8 @@ Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Su
 - [第 2 周虚拟键盘输入检查](CourseValidation/Runtime/Week02_KeyboardInput.md) 一次通过：G → G+T → G → 释放，经官方模拟器触发真实 Select / Activate / Deactivate / SelectExit。临时输入设备与设置已恢复。
 - [第 3 周运行报告](CourseValidation/Runtime/Week03_Runtime.md)：电脑端 Meta Simulator 的实际控制器输入完成 StartZone → TargetZone 传送、抓球、抬升 0.60 m 与释放落地；另一个关闭 Operator 的普通 Simulator 会话持续 125.6 秒 / 7,401 帧。该报告和后续视频均属于模拟器证据，未使用 Quest；连续视频已完成并补入 `CourseValidation/Week03_Simulator_Demo.mp4`；运行报告和机器可读检查点在 `CourseValidation/Runtime/Week03_Simulator_Demo_20260918.md` 与 `.json`，均注明“Meta XR Simulator / 非 Quest 真机”。
 - Meta 205 的 Windows Editor 原生日志解码异常使用项目内兼容脚本处理，原始日志保留于忽略的 Logs 目录。初始化窗口和早期一次 SES 重入失败的边界见运行报告。
+- 独立小组场景已通过场景结构检查与实际 Windows Editor Play 启动检查：模拟器 XR 运行时和加载器工作，HMD 追踪高度约 1.70 m，核心受物理控制，舱门关闭，空间底噪播放，无 Unity 运行错误。[运行结果](CourseValidation/Runtime/SoloStation_PlaySmoke.json)、[运行截图](CourseValidation/Runtime/SoloStation_PlaySmoke.png)、[静态预览](CourseValidation/Runtime/SoloStation_EditorPreview.png)。Android APK 已构建成功，保存在本机被 Git 忽略的 `Builds/SoloSpaceStation.apk`。本检查未执行实际控制器抓取、插入、开门或 Quest 真机试玩。
+- 独立小组场景又在一次连续的模拟器 Play 会话中完成右控制器传送、Grip 抓取、持握移动、插槽放手、舱门开启与到达出口；[流程记录](CourseValidation/Runtime/SoloStation_ControllerFlow_20261001.md)、[机器可读状态](CourseValidation/Runtime/SoloStation_ControllerFlow_20261001.json)、[结束画面](CourseValidation/Runtime/SoloStation_ControllerFlow_Final.png)。出口使用模拟头显的物理位移；此证据不代表 Quest 真机或学生本人手动演示。
 
 测试视频和截图属于自动协助验证，不能声称为学生本人键鼠演示或 Quest 真机录像。真实运行报告会明确记录验证方式及范围。
 
@@ -54,20 +59,17 @@ GitHub 上传与 Notion 作业提交是两个步骤。[个人作业卡](https://
 - [第 2 周 Notion 作业](https://app.notion.com/p/2-2-3dd7c00fe5ad8163920ed7bbd12cd78f)：2026 年 9 月 17 日已填写 GitHub 链接，上传 `Week02_Automated_Play_Test.mp4`，在正文附上 ExtensionObject Inspector 截图并完成视觉读回；状态为“已提交”。作业中已明确标注视频是自动协助 Play 验证，不代表学生本人手动操作或 Quest 真机录像。
 - [第 3 周 Notion 作业](https://app.notion.com/p/3-3-3dd7c00fe5ad8183a849f8b55c3b8133)：已填写仓库链接和电脑端报告说明；按用户确认使用 Meta XR Simulator 完成连续演示，视频已放入仓库。Notion 视频上传和提交状态仍待完成；页面和仓库会明确写明“模拟器、非 Quest 真机”，不声称教师已批准该替代方式。
 
-小组任务按用户要求忽略。
+独立小组项目的制作范围、操作步骤和验证记录见 [项目说明](Docs/Solo_SpaceStation_Project.md)；新场景的实际结果以其独立核验记录为准。
 
 [课程仓库](https://github.com/ChenMengLR/VR_Project_2026_2) 已公开（Public），老师无需登录或接受邀请即可查看代码、截图与视频。
 
 ## 保存并上传新版本
 
-在项目根目录打开终端，先保存 Unity 场景与代码，再执行：
+在容器根目录打开 PowerShell，先保存 Unity 场景与代码，再使用统一脚本（`-Push` 才上传 GitHub）：
 
 ```powershell
-git status
-git add Assets Packages ProjectSettings README.md .gitignore .gitattributes
-git diff --cached --name-only
-git commit -m "Describe the practice completed today"
-git push
+.\scripts\Submit-CourseProject.ps1 -Project VR -Week 04 -Summary "完成独立空间站原型"
+# 如果此次提交就要上传，在首次执行时加 -Push；每次提交前检查暂存文件清单。
 ```
 
 提交 `Assets` 及其 `.meta`、`Packages`、`ProjectSettings`。`Library`、`Temp`、`Logs`、`UserSettings` 和构建输出由 `.gitignore` 排除。较大二进制资源按 `.gitattributes` 使用 Git LFS；不要删除或遗漏 `.meta`。

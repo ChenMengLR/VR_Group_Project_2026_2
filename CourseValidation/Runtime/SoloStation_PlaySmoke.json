@@ -1,0 +1,33 @@
+{
+    "generatedUtc": "2026-10-01T07:40:00.7789556Z",
+    "verification": "Windows Editor Play with Meta XR Simulator; no controller input or Quest hardware test",
+    "simulatorSelected": true,
+    "xrDeviceActive": true,
+    "xrLoaderActive": true,
+    "cameraPresent": true,
+    "gameFrames": 720,
+    "rigPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "headPosition": {
+        "x": 0.0,
+        "y": 1.7000000476837159,
+        "z": 0.0
+    },
+    "headForward": {
+        "x": -4.371138828673793e-8,
+        "y": 0.0,
+        "z": 1.0
+    },
+    "eyeHeightPlausible": true,
+    "missionPresent": true,
+    "coreDynamic": true,
+    "hatchClosed": true,
+    "spatialHumPlaying": true,
+    "screenshotSaved": true,
+    "errorCount": 0,
+    "errors": [],
+    "passed": true
+}
