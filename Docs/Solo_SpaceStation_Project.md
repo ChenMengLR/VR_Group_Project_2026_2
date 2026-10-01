@@ -32,6 +32,10 @@
 
 第 3 周本机模拟器绑定曾是 M 菜单、Y 摇杆向上、U 握持、T Trigger。新场景实际键位以本机 Meta XR Simulator 的 Input Bindings 和控制器设置为准。
 
+## 团队仓库
+
+第 4 周的团队共享仓库：[ChenMengLR/VR_Group_Project_2026_2](https://github.com/ChenMengLR/VR_Group_Project_2026_2)。本小组目前只有 WANG HAOBIN 一人；团队仓库保存项目 `Assets`、`.meta`、`Packages`、`ProjectSettings`、说明和验证记录。克隆后用 Unity `6000.3.24f1` 打开项目，等待导入，再使用 `Course > Open Solo Space Station`。`Library`、`Temp`、`Logs` 和 APK 构建产物不上传，APK 可用 `scripts/Build-SoloStationAndroid.ps1` 在具备 Android 构建模块的 Windows 机器上生成。
+
 ## 验证边界
 
 场景生成器的结构检查会核对 Meta Rig、传送热点、抓取组件、插槽、舱门与 Missing Script。该检查不能替代 Play 操作、画面检查、Android 构建或 Quest 真机验证。当前没有 Quest 设备；任何电脑端模拟器录像须标注“Meta XR Simulator / 非 Quest 真机”。课程提交、老师审核和真机结果需按实际完成状态记录。

@@ -61,7 +61,7 @@ GitHub 上传与 Notion 作业提交是两个步骤。[个人作业卡](https://
 
 独立小组项目的制作范围、操作步骤和验证记录见 [项目说明](Docs/Solo_SpaceStation_Project.md)；新场景的实际结果以其独立核验记录为准。
 
-[课程仓库](https://github.com/ChenMengLR/VR_Project_2026_2) 已公开（Public），老师无需登录或接受邀请即可查看代码、截图与视频。
+[独立小组项目仓库](https://github.com/ChenMengLR/VR_Group_Project_2026_2) 已公开（Public），保存可克隆的 Unity 项目、场景和验证记录。[个人课程仓库](https://github.com/ChenMengLR/VR_Project_2026_2) 继续保留原有第 2、3 周历史；这两个地址用途不同。APK 位于本机忽略的 `Builds/`，需要时运行构建脚本重建。
 
 ## 保存并上传新版本
 
