@@ -10,7 +10,7 @@
 
 - 第 3 周：复用已实现的 Meta XR 移动、传送和控制器抓取；新场景需再次运行验证。
 - 第 4 周：同一场景里“物体进入目标区域 → 开门”的核心机制。
-- 第 5 周：插槽位置的空间底噪和成功提示音。
+- 第 5 周：插槽位置的空间环境声、抓取声、松开声、供电成功音和出口结论音；详见[第 5 周策划案](Week05_VR_Design_Plan.md)。
 - 第 6 周：控制器抓取与完成时的短振动；B 键重置。桌面模拟器还可用 R 键重置。
 - 第 7 周：完整的可试玩原型和录制素材。
 
@@ -19,7 +19,9 @@
 - 主场景：`Assets/01_Scenes/Solo_SpaceStation.unity`，由 `Course > Build Solo Space Station` 生成；原第 3 周场景和官方 Meta 样例不受修改。
 - 场景搭建：`Assets/Editor/SoloStationBuilder.cs`。保留一个 Meta Rig、设置 UI 和两处传送热点，关闭旧样例环境，建立带碰撞体的新地面和舱室。
 - 任务逻辑：`Assets/02_Scripts/SpaceStationMission.cs`。必须先真实抓起核心，再在插槽附近放手，才会吸附核心、切换指示灯、播放声音并打开舱门。抵达出口显示完成；B / R 重置。
-- 美术范围：Unity 基础几何体和 URP 材质；音效由运行时合成，不需要第三方资产。
+- 美术范围：Unity 基础几何体和 URP 材质；第 5 周音频为仓库内原创、可重复生成的单声道 WAV，不需要第三方资产。音频生成与使用条件见 `Assets/07_Sounds/README.md`。
+- 第 5 周个人练习场景：`Assets/Scenes/Week05_WangHaobin_SpatialAudio.unity`。构建器每次与主场景同步刷新；主场景仍是 Android 启动场景。
+- 声音交互：`SpaceStationGrabAudio.cs` 由核心上的 `PointableUnityEventWrapper.WhenSelect/WhenUnselect` 持久回调播放抓放 OneShot；`SpaceStationMission.cs` 播放插槽循环声、供电成功声与出口结论声。四个音源均开启 3D 与 Meta XR Audio Spatialize。
 - 构建场景：`ProjectSettings/EditorBuildSettings.asset` 中启用新场景作为 Android 启动场景。
 
 ## 打开与操作
@@ -47,3 +49,5 @@
 Android APK 已成功构建，输出到本机被 Git 忽略的 `Builds/SoloSpaceStation.apk`，大小约 100 MiB；包名 `com.wanghaobin.loststation`。Unity 在含中文的原项目路径下首次构建失败，此后使用临时英文盘符成功构建；可在容器根目录运行 `./VR_Project_2026_2/scripts/Build-SoloStationAndroid.ps1` 重建，该脚本会在结束时移除临时盘符。也可以在英文路径中通过 Unity 的 `Course > Build Solo Space Station APK` 菜单构建。
 
 仍需在有设备时进行 Quest 真机测试、佩戴舒适度与性能检查。电脑端截图与报告不得标记为 Quest 真机结果；课程提交与老师审核也需按实际状态记录。
+
+2026 年 10 月 8 日新增了第 5 周空间音频。窗口化 Meta XR Simulator Play 已通过运行检查：环境声播放、Meta XR Audio 插件初始化、场景声音配置与抓放事件持久接线均正常，合成 Select/Unselect 回调各触发一次，Unity 运行错误 0。另一次模拟器会话用官方 Operator 的右控制器 Grip 完成抓放、插入、开门和抵达出口，Unity 日志记录四种 OneShot 实际调用。[验证记录](../CourseValidation/Runtime/Week05_Validation.md)列出具体范围。此项仍需戴耳机听左右/远近与实际响度，并在可用 Quest 时录制有真实游戏声音的连续演示。

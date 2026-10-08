@@ -24,6 +24,7 @@ namespace CourseSetup
         public static void OpenWeek03()
         {
             Guard();
+            RequireWindowsSimulatorTarget();
             SetDesktopStartup(true);
             EditorSceneManager.OpenScene(Week03Builder.ScenePath);
             EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Activate");
@@ -34,10 +35,22 @@ namespace CourseSetup
         public static void OpenSoloStation()
         {
             Guard();
+            RequireWindowsSimulatorTarget();
             SetDesktopStartup(true);
             EditorSceneManager.OpenScene(SoloStationBuilder.ScenePath);
             EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Activate");
             Debug.Log("Solo station ready in Meta XR Simulator. Use the settings menu for Teleport, grab the core, and insert it into the socket.");
+        }
+
+        [MenuItem("Course/Open Week 05 Personal Sound Practice", priority = 3)]
+        public static void OpenWeek05SoundPractice()
+        {
+            Guard();
+            RequireWindowsSimulatorTarget();
+            SetDesktopStartup(true);
+            EditorSceneManager.OpenScene(SoloStationBuilder.PracticeScenePath);
+            EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Activate");
+            Debug.Log("Week 05 personal sound practice ready in Meta XR Simulator: compare socket distance and left/right, then grab and release the core.");
         }
 
         public static void SetDesktopStartup(bool enabled)
@@ -62,6 +75,12 @@ namespace CourseSetup
             for (int i = 0; i < EditorSceneManager.sceneCount; i++)
                 if (EditorSceneManager.GetSceneAt(i).isDirty)
                     throw new InvalidOperationException("Save the current scene before switching. No changes were discarded.");
+        }
+
+        private static void RequireWindowsSimulatorTarget()
+        {
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.StandaloneWindows64)
+                throw new InvalidOperationException("Switch the active Build Profile to Windows before starting a Meta XR Simulator practice scene. The Android APK build leaves Android active.");
         }
     }
 }

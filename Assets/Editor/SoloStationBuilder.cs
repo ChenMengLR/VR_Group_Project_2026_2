@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CourseProject;
 using Oculus.Interaction;
 using Oculus.Interaction.Locomotion;
@@ -9,8 +10,10 @@ using TMPro;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEditor.Events;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -25,8 +28,11 @@ namespace CourseSetup
     public static class SoloStationBuilder
     {
         public const string ScenePath = "Assets/01_Scenes/Solo_SpaceStation.unity";
+        public const string PracticeScenePath = "Assets/Scenes/Week05_WangHaobin_SpatialAudio.unity";
         private const string RootName = "SoloStationRoot";
         private const string MaterialFolder = "Assets/03_Materials/SoloStation";
+        private const string AmbientFolder = "Assets/07_Sounds/AMBIENT";
+        private const string SfxFolder = "Assets/07_Sounds/SFX";
 
         [MenuItem("Course/Refresh Solo Space Station And Preview", priority = 19)]
         public static void BuildAndPreview()
@@ -42,6 +48,11 @@ namespace CourseSetup
                 throw new InvalidOperationException("Stop Play and wait for compilation before building.");
             if (!File.Exists(Week03Builder.ScenePath))
                 throw new FileNotFoundException("Build Week 03 before the solo station scene.", Week03Builder.ScenePath);
+            var airflowClip = RequireClip(AmbientFolder + "/airflow_loop_8s.wav");
+            var grabClip = RequireClip(SfxFolder + "/grab_core.wav");
+            var releaseClip = RequireClip(SfxFolder + "/release_core.wav");
+            var restoredClip = RequireClip(SfxFolder + "/power_restored.wav");
+            var completeClip = RequireClip(SfxFolder + "/mission_complete.wav");
 
             // The scene is generated. Refuse to overwrite another scene that happens to use this path.
             if (File.Exists(ScenePath))
@@ -166,6 +177,30 @@ namespace CourseSetup
             audioRoot.transform.position = socket.position;
             var hum = audioRoot.AddComponent<AudioSource>();
             var cue = audioRoot.AddComponent<AudioSource>();
+            ConfigureSpatialSource(hum, airflowClip, true, 0.45f, 0.6f, 8f);
+            ConfigureSpatialSource(cue, null, false, 0.60f, 0.5f, 8f);
+
+            var exitAudio = new GameObject("ExitSpatialAudio");
+            exitAudio.transform.SetParent(root.transform, false);
+            exitAudio.transform.position = exit.transform.position + Vector3.up * 1.4f;
+            var exitCue = exitAudio.AddComponent<AudioSource>();
+            ConfigureSpatialSource(exitCue, null, false, 0.58f, 0.5f, 8f);
+
+            var coreAudio = core.gameObject.AddComponent<AudioSource>();
+            ConfigureSpatialSource(coreAudio, null, false, 0.72f, 0.35f, 7f);
+            var grabAudio = core.gameObject.AddComponent<SpaceStationGrabAudio>();
+            var grabSerialized = new SerializedObject(grabAudio);
+            Assign(grabSerialized, "output", coreAudio);
+            Assign(grabSerialized, "grabClip", grabClip);
+            Assign(grabSerialized, "releaseClip", releaseClip);
+            grabSerialized.ApplyModifiedPropertiesWithoutUndo();
+            var grabEvents = core.gameObject.AddComponent<PointableUnityEventWrapper>();
+            grabEvents.InjectPointable(coreGrab);
+            InitializePointerEvent(grabEvents, "_whenSelect");
+            InitializePointerEvent(grabEvents, "_whenUnselect");
+            UnityEventTools.AddVoidPersistentListener(grabEvents.WhenSelect, grabAudio.PlayGrab);
+            UnityEventTools.AddVoidPersistentListener(grabEvents.WhenUnselect, grabAudio.PlayRelease);
+
             var mission = root.AddComponent<SpaceStationMission>();
             var serialized = new SerializedObject(mission);
             Assign(serialized, "coreGrab", coreGrab);
@@ -182,6 +217,9 @@ namespace CourseSetup
             Assign(serialized, "statusText", status);
             Assign(serialized, "humSource", hum);
             Assign(serialized, "cueSource", cue);
+            Assign(serialized, "powerRestoredClip", restoredClip);
+            Assign(serialized, "exitCueSource", exitCue);
+            Assign(serialized, "missionCompleteClip", completeClip);
             serialized.ApplyModifiedPropertiesWithoutUndo();
 
             RenderSettings.skybox = null;
@@ -191,6 +229,11 @@ namespace CourseSetup
             EditorSceneManager.MarkSceneDirty(scene);
             if (!EditorSceneManager.SaveScene(scene, ScenePath))
                 throw new IOException("Could not save solo station scene.");
+            EnsureFolder("Assets/Scenes");
+            // A single-person team still has a named personal Week 05 practice scene.
+            // It is refreshed from the same validated group scene on each build.
+            File.Copy(ScenePath, PracticeScenePath, true);
+            AssetDatabase.ImportAsset(PracticeScenePath, ImportAssetOptions.ForceSynchronousImport);
             EditorBuildSettings.scenes = Array.Empty<EditorBuildSettingsScene>();
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             var sceneGuid = AssetDatabase.AssetPathToGUID(ScenePath);
@@ -200,7 +243,7 @@ namespace CourseSetup
             AssetDatabase.SaveAssets();
             Validate(scene);
             Selection.activeGameObject = root;
-            Debug.Log("SOLO_STATION_BUILD_OK: " + ScenePath + " | one Meta rig, two teleport pads, one grabbable core, socket, hatch, spatial audio.");
+            Debug.Log("SOLO_STATION_BUILD_OK: " + ScenePath + " | Week 05 practice copy, three spatial audio positions, grab/release and completion cues.");
         }
 
         [MenuItem("Course/Validate Solo Space Station", priority = 21)]
@@ -286,6 +329,29 @@ namespace CourseSetup
                 root.transform.Find("SlidingHatch") == null ||
                 root.transform.Find("EnergySocket_SnapAnchor") == null)
                 throw new InvalidOperationException("Solo mission interaction structure is incomplete.");
+            var mission = root.GetComponent<SpaceStationMission>();
+            var core = task.GetComponentInChildren<Grabbable>(true);
+            var grabAudio = core.GetComponent<SpaceStationGrabAudio>();
+            var grabEvents = core.GetComponent<PointableUnityEventWrapper>();
+            if (grabAudio == null || grabEvents == null ||
+                grabEvents.WhenSelect.GetPersistentEventCount() != 1 ||
+                grabEvents.WhenUnselect.GetPersistentEventCount() != 1 ||
+                grabEvents.WhenSelect.GetPersistentTarget(0) != grabAudio ||
+                grabEvents.WhenUnselect.GetPersistentTarget(0) != grabAudio ||
+                grabEvents.WhenSelect.GetPersistentMethodName(0) != nameof(SpaceStationGrabAudio.PlayGrab) ||
+                grabEvents.WhenUnselect.GetPersistentMethodName(0) != nameof(SpaceStationGrabAudio.PlayRelease) ||
+                grabAudio.GrabClip == null || grabAudio.ReleaseClip == null)
+                throw new InvalidOperationException("Week 05 grab and release sound events are incomplete.");
+            if (!ValidSpatialSource(mission.HumSource, true, true) ||
+                !ValidSpatialSource(mission.CueSource, false, false) ||
+                !ValidSpatialSource(mission.ExitCueSource, false, false) ||
+                !ValidSpatialSource(grabAudio.Output, false, false) ||
+                mission.PowerRestoredClip == null || mission.MissionCompleteClip == null)
+                throw new InvalidOperationException("Week 05 spatial AudioSources or clips are incomplete.");
+            int listeners = roots.Sum(go => go.GetComponentsInChildren<AudioListener>(false)
+                .Count(listener => listener.enabled));
+            if (listeners != 1)
+                throw new InvalidOperationException("Week 05 scene needs exactly one active AudioListener on the player rig.");
             int missing = roots.SelectMany(go => go.GetComponentsInChildren<Transform>(true))
                 .Sum(t => GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject));
             if (missing > 0) throw new InvalidOperationException("Scene contains " + missing + " missing scripts.");
@@ -293,6 +359,42 @@ namespace CourseSetup
 
         private static GameObject FindRoot(Scene scene, string name) =>
             scene.GetRootGameObjects().FirstOrDefault(go => go.name == name);
+
+        private static AudioClip RequireClip(string path) =>
+            AssetDatabase.LoadAssetAtPath<AudioClip>(path) ??
+            throw new FileNotFoundException("Import the generated Week 05 audio clip before building.", path);
+
+        private static void InitializePointerEvent(PointableUnityEventWrapper wrapper, string fieldName)
+        {
+            // Meta's serialized UnityEvents are null immediately after AddComponent.
+            // An Inspector-created wrapper gets them on deserialization instead.
+            var field = typeof(PointableUnityEventWrapper).GetField(fieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            if (field == null)
+                throw new MissingFieldException(nameof(PointableUnityEventWrapper), fieldName);
+            if (field.GetValue(wrapper) == null)
+                field.SetValue(wrapper, new UnityEvent<PointerEvent>());
+        }
+
+        private static void ConfigureSpatialSource(AudioSource source, AudioClip clip,
+            bool loop, float volume, float minDistance, float maxDistance)
+        {
+            source.clip = clip;
+            source.playOnAwake = false;
+            source.loop = loop;
+            source.volume = volume;
+            source.spatialBlend = 1f;
+            source.spatialize = true;
+            source.rolloffMode = AudioRolloffMode.Linear;
+            source.minDistance = minDistance;
+            source.maxDistance = maxDistance;
+            source.dopplerLevel = 0f;
+        }
+
+        private static bool ValidSpatialSource(AudioSource source, bool loop, bool hasClip) =>
+            source != null && source.loop == loop && source.spatialBlend > 0.99f &&
+            source.spatialize && source.rolloffMode == AudioRolloffMode.Linear &&
+            source.dopplerLevel == 0f && source.clip != null == hasClip;
 
         private static GameObject Cube(string name, Vector3 position, Vector3 scale, Material material, Transform parent)
         {

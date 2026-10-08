@@ -135,6 +135,19 @@ namespace CourseSetup
                 // Core205's PST fix explicitly re-enables after TryAdd. Reproduce that
                 // public-API step because the activation menu alone can leave it disabled.
                 var architecture = RuntimeInformation.ProcessArchitecture;
+                // A target switch or Android build can leave the enabled layer in
+                // settings while its staged Windows manifest has been removed.
+                // Re-register through OpenXR so the manifest and DLL are copied.
+                var stagedLayerDir = Path.Combine(Application.dataPath, "XR", "APILayers~",
+                    "WindowsLayers", architecture.ToString().ToLowerInvariant());
+                var stagedManifest = Path.Combine(stagedLayerDir, "XrApiLayer_METAX_operator.json");
+                var stagedLibrary = Path.Combine(stagedLayerDir, "XrApiLayer_METAX_operator.dll");
+                if (apiLayers.apiLayers.IsEnabled(LayerName, architecture) &&
+                    (!File.Exists(stagedManifest) || !File.Exists(stagedLibrary)))
+                {
+                    if (!apiLayers.apiLayers.TryRemove(LayerName, architecture))
+                        throw new InvalidOperationException("Could not remove an incomplete staged Operator layer.");
+                }
                 apiLayers.apiLayers.SetEnabled(LayerName, architecture, true);
                 if (!apiLayers.apiLayers.IsEnabled(LayerName, architecture))
                 {

@@ -10,9 +10,12 @@ WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit �
 
 编辑器启动完成后，先确认 Console 没有编译错误。保存当前场景、退出 Play，再用以下菜单切换：
 
+如果刚构建过 Android APK，先在 Unity 的 Build Profiles 将活动平台切回 Windows，等待导入完成，再打开 Meta XR Simulator 练习场景。课程菜单会在活动平台不是 Windows 时给出提示。
+
 - `Course > Open Week 02 Computer Practice`：打开第 2 周场景、关闭 Meta 模拟器及桌面 OpenXR 自动启动，使用 XRI 键鼠模拟器。
 - `Course > Open Week 03 Computer Practice`：打开第 3 周场景，启用桌面 OpenXR 自动启动及本机 Meta 模拟器。
 - `Course > Open Solo Space Station`：打开独立小组项目场景，启用桌面 OpenXR 与 Meta XR Simulator。
+- `Course > Open Week 05 Personal Sound Practice`：打开第 5 周个人练习场景，启用同一模拟器；戴立体声耳机比较插槽远近与左右方位，再试抓取/松开音效。
 
 第 2 周点击 Game 获得焦点后，用 WASD 移动，H 切换头部，[ / ] 选择左/右设备。G 抓取右手、T 激活右手；左手加 Shift。反复按同一括号会切换 Controller/Hand，练习时保持 Controller。详见 Docs 中的课程指南。
 
@@ -33,7 +36,11 @@ Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Su
 
 `Assets/01_Scenes/Week03_Meta_Locomotion.unity` 基于官方 LocomotionExamples 副本，保留原来的 Meta Rig、移动环境与设置 UI。新增绿色 StartZone、蓝色 TargetZone、支持 SnapPositionAndRotation 的热点，以及带真实 Meta Grab/Rigidbody 的 MissionObject。官方原样例未改动。
 
-`Assets/01_Scenes/Solo_SpaceStation.unity` 是独立小组项目《失联空间站：重启舱门》。保留 Meta Rig、控制器交互和移动设置 UI，关闭旧场景环境；新建封闭空间站、维修台、可抓取能量核心、插槽、滑动舱门、出口与空间音效。把能量核心抓起并释放在插槽内才会通电开门。此场景也是当前 Android 构建的启动场景。
+`Assets/01_Scenes/Solo_SpaceStation.unity` 是独立小组项目《失联空间站：重启舱门》。保留 Meta Rig、控制器交互和移动设置 UI，关闭旧场景环境；新建封闭空间站、维修台、可抓取能量核心、插槽、滑动舱门、出口与空间音效。把能量核心抓起并释放在插槽内才会通电开门。此场景也是当前 Android 构建的启动场景。第 5 周个人练习副本在 `Assets/Scenes/Week05_WangHaobin_SpatialAudio.unity`，由同一构建器同步生成。
+
+第 5 周声音资源在 `Assets/07_Sounds/AMBIENT` 与 `Assets/07_Sounds/SFX`，均为项目自制单声道 WAV，可由 `python scripts/Generate-Week05Audio.py` 重建；来源与使用条件见 [音频说明](Assets/07_Sounds/README.md)。插槽底噪循环播放，能量核心的 Meta Select/Unselect 事件分别触发抓取与松开声，插槽和出口播放不同的完成提示。四个 AudioSource 设为 3D、启用 Spatialize，由 Meta XR Audio 处理空间化；场景只有头显相机一个启用的 AudioListener。[第 5 周策划案](Docs/Week05_VR_Design_Plan.md)列出声音位置、触发时机和后续计划。
+
+一人小组的[第 5 周整合记录](Docs/Week05_Team_Integration.md)列出场景、脚本、音频、验证结果和第 6 周事项。需要复查模拟器输入时，在 Windows 构建目标的窗口化 Unity 中运行 `Course > Week 05 > Start Simulator Sound Flow`，本地 Operator 端点会在 Play 时可用；`scripts/Week05OperatorClient.py` 可连接它。退出测试前先退出 Play 并正常关闭 Editor，避免留下场景恢复提示。
 
 ## 核验记录
 
@@ -45,6 +52,9 @@ Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Su
 - Meta 205 的 Windows Editor 原生日志解码异常使用项目内兼容脚本处理，原始日志保留于忽略的 Logs 目录。初始化窗口和早期一次 SES 重入失败的边界见运行报告。
 - 独立小组场景已通过场景结构检查与实际 Windows Editor Play 启动检查：模拟器 XR 运行时和加载器工作，HMD 追踪高度约 1.70 m，核心受物理控制，舱门关闭，空间底噪播放，无 Unity 运行错误。[运行结果](CourseValidation/Runtime/SoloStation_PlaySmoke.json)、[运行截图](CourseValidation/Runtime/SoloStation_PlaySmoke.png)、[静态预览](CourseValidation/Runtime/SoloStation_EditorPreview.png)。Android APK 已构建成功，保存在本机被 Git 忽略的 `Builds/SoloSpaceStation.apk`。本检查未执行实际控制器抓取、插入、开门或 Quest 真机试玩。
 - 独立小组场景又在一次连续的模拟器 Play 会话中完成右控制器传送、Grip 抓取、持握移动、插槽放手、舱门开启与到达出口；[流程记录](CourseValidation/Runtime/SoloStation_ControllerFlow_20261001.md)、[机器可读状态](CourseValidation/Runtime/SoloStation_ControllerFlow_20261001.json)、[结束画面](CourseValidation/Runtime/SoloStation_ControllerFlow_Final.png)。出口使用模拟头显的物理位移；此证据不代表 Quest 真机或学生本人手动演示。
+- 第 5 周窗口化 Meta XR Simulator Play 已检查五个 WAV、四个 3D 音源、Meta XR Audio 选择、唯一 AudioListener、插槽环境声实际播放以及合成的 Select/Unselect 回调，运行错误 0；[最新启动检查](CourseValidation/Runtime/SoloStation_PlaySmoke.json)。合成回调只验证事件接线，尚未替代真实手柄与 Quest 听感检查。[第 5 周验证记录](CourseValidation/Runtime/Week05_Validation.md)说明实现和边界。
+- 第 5 周又在独立连续的 Meta XR Simulator 会话中使用官方 Operator 右控制器 Grip 抓放，核心移入插槽后开门，模拟头显抵达出口。Unity 日志依次确认抓取、松开、供电成功、任务完成四种 OneShot 被实际调用；[流程数据](CourseValidation/Runtime/Week05_OperatorFlow.json)与[开门画面](CourseValidation/Runtime/Week05_Operator_PoweredHatch.png)可核对。该次流程只保存了日志和截图。
+- 另录制[第 5 周有声模拟器演示](CourseValidation/Week05_Simulator_Audio_Demo.mp4)，同一 Play 会话完成模拟手柄抓放、供电和出口；Game Bar 捕获真实 Windows 游戏音频，发布版统一加 8 dB 便于展示。视频明确标注 Meta XR Simulator / 非 Quest 真机，且不是学生手动操作。Quest 耳机声场与真机录像仍待设备实测。
 
 测试视频和截图属于自动协助验证，不能声称为学生本人键鼠演示或 Quest 真机录像。真实运行报告会明确记录验证方式及范围。
 
@@ -68,7 +78,7 @@ GitHub 上传与 Notion 作业提交是两个步骤。[个人作业卡](https://
 在容器根目录打开 PowerShell，先保存 Unity 场景与代码，再使用统一脚本（`-Push` 才上传 GitHub）：
 
 ```powershell
-.\scripts\Submit-CourseProject.ps1 -Project VR -Week 04 -Summary "完成独立空间站原型"
+.\scripts\Submit-CourseProject.ps1 -Project VR -Week 05 -Summary "完善空间音频与交互验证"
 # 如果此次提交就要上传，在首次执行时加 -Push；每次提交前检查暂存文件清单。
 ```
 
@@ -80,5 +90,6 @@ GitHub 上传与 Notion 作业提交是两个步骤。[个人作业卡](https://
 
 - [第 2 周 Unity Editor Basics and First XR Interaction](https://app.notion.com/p/3cf7c00fe5ad8118803cedb669e28446)
 - [第 3 周 Meta XR Locomotion Lab](https://app.notion.com/p/3cf7c00fe5ad8111b891c9900e29a307)
+- [第 5 周 Spatial Sound and Sound Interaction](https://app.notion.com/p/Spatial-Sound-and-Sound-Interaction-3cf7c00fe5ad81049defe55c2eb0e122)
 
 Unity 与 Meta 官方导入资源保留其原许可与来源。`Assets/Editor` 的 Course 工具用于搭建、切换和自动检查；初次学习按说明理解组件后再修改，不应把构建器的输出误写成独立完成的学习经历。

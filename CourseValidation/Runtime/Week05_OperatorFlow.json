@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-08",
+  "environment": "Unity 6000.3.24f1, Windows Editor, Meta XR Simulator and official Meta XR Operator 205; no Quest hardware",
+  "testMethod": "One Play session with OpenXR Operator right-controller Grip input and simulated physical headset movement; Unity scene pose readback and Editor audio-call logs",
+  "steps": [
+    {
+      "action": "Move simulated headset near the repair bench; position right controller at the core and press Grip",
+      "observed": {
+        "coreInitialWorld": [1.15, 0.97, 1.3],
+        "audioLog": "WEEK05_GRAB_SOUND_PLAYED: grab_core"
+      }
+    },
+    {
+      "action": "Move the held right controller to the socket",
+      "observed": {
+        "coreAtSocketWorld": [1.85, 1.01, 1.3],
+        "socketWorld": [1.85, 1.01, 1.3]
+      }
+    },
+    {
+      "action": "Release right-controller Grip at the socket",
+      "observed": {
+        "audioLogs": [
+          "WEEK05_RELEASE_SOUND_PLAYED: release_core",
+          "WEEK05_CUE_PLAYED: power_restored @ SocketSpatialAudio"
+        ],
+        "hatchClosedY": 1.24,
+        "hatchOpenY": 3.74
+      }
+    },
+    {
+      "action": "Move the simulated headset through the open hatch to the exit",
+      "observed": {
+        "headAtExitWorld": [4.45, 1.7, 0.75],
+        "audioLog": "WEEK05_CUE_PLAYED: mission_complete @ ExitSpatialAudio"
+      }
+    }
+  ],
+  "images": [
+    "CourseValidation/Runtime/Week05_Operator_PoweredHatch.png",
+    "CourseValidation/Runtime/Week05_Operator_Final.png"
+  ],
+  "limitations": [
+    "Headset displacement represented physical movement; this session did not recheck controller teleport.",
+    "Editor logs prove calls to Unity AudioSource.PlayOneShot, not audible output level or left-right localization.",
+    "This is Meta XR Simulator evidence, not a Quest headset recording or student-operated demonstration."
+  ]
+}

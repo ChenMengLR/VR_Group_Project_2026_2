@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using CourseProject;
+using Oculus.Interaction;
 using UnityEditor;
 using UnityEditor.XR.OpenXR.Features;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace CourseSetup
         private sealed class Report
         {
             public string generatedUtc;
-            public string verification = "Windows Editor Play with Meta XR Simulator; no controller input or Quest hardware test";
+            public string verification = "Windows Editor Play with Meta XR Simulator; synthetic Select/Unselect callbacks only, no real controller input or Quest hardware test";
             public bool simulatorSelected;
             public bool xrDeviceActive;
             public bool xrLoaderActive;
@@ -40,6 +41,11 @@ namespace CourseSetup
             public bool coreDynamic;
             public bool hatchClosed;
             public bool spatialHumPlaying;
+            public bool metaSpatializerSelected;
+            public bool oneActiveAudioListener;
+            public bool fourSpatialSourcesConfigured;
+            public bool fiveClipsPresent;
+            public bool syntheticGrabReleaseCallbacksPassed;
             public bool screenshotSaved;
             public int errorCount;
             public string[] errors;
@@ -137,14 +143,38 @@ namespace CourseSetup
                 report.coreDynamic = body != null && body.useGravity && !body.isKinematic;
                 var hatch = GameObject.Find("SlidingHatch");
                 report.hatchClosed = hatch != null && Mathf.Abs(hatch.transform.localPosition.y - 1.24f) < 0.01f;
-                var hum = GameObject.Find("SocketSpatialAudio");
-                report.spatialHumPlaying = hum != null &&
-                    hum.GetComponents<AudioSource>().Any(a => a.isPlaying && a.spatialBlend > 0.99f);
+                report.metaSpatializerSelected = AudioSettings.GetSpatializerPluginName() == "Meta XR Audio";
+                report.oneActiveAudioListener = UnityEngine.Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None)
+                    .Count(listener => listener.isActiveAndEnabled) == 1;
+                var feedback = core == null ? null : core.GetComponent<SpaceStationGrabAudio>();
+                var pointerEvents = core == null ? null : core.GetComponent<PointableUnityEventWrapper>();
+                report.spatialHumPlaying = mission != null && mission.HumSource != null &&
+                    mission.HumSource.isPlaying && mission.HumSource.loop;
+                report.fourSpatialSourcesConfigured = mission != null && feedback != null &&
+                    Spatial(mission.HumSource) && Spatial(mission.CueSource) &&
+                    Spatial(mission.ExitCueSource) && Spatial(feedback.Output);
+                report.fiveClipsPresent = mission != null && feedback != null &&
+                    mission.HumSource.clip != null && mission.PowerRestoredClip != null &&
+                    mission.MissionCompleteClip != null && feedback.GrabClip != null &&
+                    feedback.ReleaseClip != null;
+                if (feedback != null && pointerEvents != null)
+                {
+                    int grabsBefore = feedback.GrabCount;
+                    int releasesBefore = feedback.ReleaseCount;
+                    var pose = new Pose(core.transform.position, core.transform.rotation);
+                    pointerEvents.WhenSelect.Invoke(new PointerEvent(1, PointerEventType.Select, pose));
+                    pointerEvents.WhenUnselect.Invoke(new PointerEvent(1, PointerEventType.Unselect, pose));
+                    report.syntheticGrabReleaseCallbacksPassed = feedback.GrabCount == grabsBefore + 1 &&
+                        feedback.ReleaseCount == releasesBefore + 1;
+                }
                 report.screenshotSaved = camera != null && SaveCamera(camera);
                 report.errorCount = SessionState.GetInt(Prefix + "ErrorCount", 0);
                 report.passed = report.simulatorSelected && report.xrDeviceActive && report.xrLoaderActive &&
                     report.cameraPresent && report.gameFrames >= 30 && report.eyeHeightPlausible && report.missionPresent && report.coreDynamic &&
-                    report.hatchClosed && report.spatialHumPlaying && report.screenshotSaved && report.errorCount == 0;
+                    report.hatchClosed && report.spatialHumPlaying && report.metaSpatializerSelected &&
+                    report.oneActiveAudioListener && report.fourSpatialSourcesConfigured &&
+                    report.fiveClipsPresent && report.syntheticGrabReleaseCallbacksPassed &&
+                    report.screenshotSaved && report.errorCount == 0;
                 report.errors = report.passed ? Array.Empty<string>() : new[] { "One or more Play smoke checks failed; inspect the booleans and Editor log." };
             }
             catch (Exception ex)
@@ -183,6 +213,10 @@ namespace CourseSetup
                 UnityEngine.Object.DestroyImmediate(target);
             }
         }
+
+        private static bool Spatial(AudioSource source) => source != null &&
+            source.spatialize && source.spatialBlend > 0.99f &&
+            source.rolloffMode == AudioRolloffMode.Linear && source.dopplerLevel == 0f;
 
         private static void FinishWithError(string message)
         {

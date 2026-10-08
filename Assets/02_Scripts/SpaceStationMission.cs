@@ -30,6 +30,9 @@ namespace CourseProject
         [SerializeField] private TMP_Text statusText;
         [SerializeField] private AudioSource humSource;
         [SerializeField] private AudioSource cueSource;
+        [SerializeField] private AudioClip powerRestoredClip;
+        [SerializeField] private AudioSource exitCueSource;
+        [SerializeField] private AudioClip missionCompleteClip;
 
         private Vector3 coreStartPosition;
         private Quaternion coreStartRotation;
@@ -44,6 +47,11 @@ namespace CourseProject
 
         public bool IsInserted => inserted;
         public bool IsEscaped => escaped;
+        public AudioSource HumSource => humSource;
+        public AudioSource CueSource => cueSource;
+        public AudioClip PowerRestoredClip => powerRestoredClip;
+        public AudioSource ExitCueSource => exitCueSource;
+        public AudioClip MissionCompleteClip => missionCompleteClip;
 
         private void Awake()
         {
@@ -56,7 +64,7 @@ namespace CourseProject
 
         private void Start()
         {
-            ConfigureAudio();
+            if (humSource != null && !humSource.isPlaying) humSource.Play();
             ApplyStandby();
         }
 
@@ -93,7 +101,7 @@ namespace CourseProject
                 {
                     escaped = true;
                     SetStatus("MISSION COMPLETE\nB / R TO REPLAY");
-                    PlayCue(1046f, 1318f, 0.55f);
+                    PlayCue(exitCueSource, missionCompleteClip);
                 }
             }
         }
@@ -113,7 +121,7 @@ namespace CourseProject
             socketLight.color = new Color(0.20f, 1f, 0.42f);
             hatchLight.color = socketLight.color;
             SetStatus("POWER RESTORED\nHATCH OPEN - EXIT");
-            PlayCue(659f, 988f, 0.5f);
+            PlayCue(cueSource, powerRestoredClip);
             StartCoroutine(PulseControllers());
             hatchMotion = StartCoroutine(MoveHatch(hatchClosedPosition + Vector3.up * 2.5f));
         }
@@ -189,41 +197,13 @@ namespace CourseProject
             if (statusText != null) statusText.text = message;
         }
 
-        private void ConfigureAudio()
+        private static void PlayCue(AudioSource source, AudioClip clip)
         {
-            humSource.clip = CreateTone("Socket Hum", 110f, 220f, 1f, 0.045f, true);
-            humSource.loop = true;
-            humSource.spatialBlend = 1f;
-            humSource.minDistance = 0.35f;
-            humSource.maxDistance = 5f;
-            humSource.Play();
-            cueSource.spatialBlend = 1f;
-            cueSource.minDistance = 0.5f;
-            cueSource.maxDistance = 7f;
-        }
-
-        private void PlayCue(float low, float high, float seconds)
-        {
-            cueSource.PlayOneShot(CreateTone("Station Cue", low, high, seconds, 0.3f, false));
-        }
-
-        private static AudioClip CreateTone(string name, float low, float high,
-            float seconds, float volume, bool seamless)
-        {
-            const int sampleRate = 22050;
-            int count = Mathf.CeilToInt(sampleRate * seconds);
-            var samples = new float[count];
-            for (int i = 0; i < count; i++)
+            if (source != null && clip != null)
             {
-                float time = i / (float)sampleRate;
-                float envelope = seamless ? 1f : Mathf.Sin(Mathf.PI * i / (count - 1));
-                samples[i] = volume * envelope *
-                    (Mathf.Sin(2f * Mathf.PI * low * time) * 0.72f +
-                     Mathf.Sin(2f * Mathf.PI * high * time) * 0.28f);
+                source.PlayOneShot(clip);
+                Debug.Log("WEEK05_CUE_PLAYED: " + clip.name + " @ " + source.name);
             }
-            var clip = AudioClip.Create(name, count, 1, sampleRate, false);
-            clip.SetData(samples, 0);
-            return clip;
         }
     }
 }
