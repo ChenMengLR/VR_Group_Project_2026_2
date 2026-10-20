@@ -94,10 +94,10 @@
 
 ## 提交材料清单
 
-- 小组仓库链接：[VR Group Project 2026 2](https://github.com/ChenMengLR/VR_Group_Project_2026_2)；具体提交号在上传后补填。
+- 小组仓库链接：[VR Group Project 2026 2](https://github.com/ChenMengLR/VR_Group_Project_2026_2)；本版[小组交付提交 44dc15a](https://github.com/ChenMengLR/VR_Group_Project_2026_2/commit/44dc15a235d6e4b3a222c08ae6789f41cd856480)。
 - 第 6 周个人练习场景链接：`待完成或核对；不要把小组场景冒充个人练习`
-- 第 6 周小组场景和预制件链接：`生成并推送后补填`
-- 英文 UI 的个人/小组截图或短视频：`拍摄后补填；注明 Meta XR Simulator 或 Quest`
+- 第 6 周小组[场景](https://github.com/ChenMengLR/VR_Group_Project_2026_2/blob/main/Assets/01_Scenes/Week06_TeamUI_Wang.unity)和[UI 预制件](https://github.com/ChenMengLR/VR_Group_Project_2026_2/blob/main/Assets/03_Prefabs/Week06_MissionConsole.prefab)已推送。
+- 英文小组 UI 的[初始状态预览](../CourseValidation/Runtime/Week06_UI_Status_EditorPreview.png)、[帮助预览](../CourseValidation/Runtime/Week06_UI_Help_EditorPreview.png)为 Unity Editor 相机渲染；[Game 画面](../CourseValidation/Runtime/Week06_TeamUI_PlaySmoke.png)为 Meta XR Simulator。个人练习截图、Quest 真机画面和新版完整流程录像仍待补。
 - 本页真实首次使用记录、最高优先级修复和同任务复测：`尚待同学试玩后填写`
 - 个人贡献与未解决问题：[第 6 周整合记录](Week06_Team_Integration.md)。
 
