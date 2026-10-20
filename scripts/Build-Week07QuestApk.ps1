@@ -26,7 +26,9 @@ try {
         '-executeMethod', 'CourseSetup.Week06TeamUIBuilder.BuildAndroidApk',
         '-logFile', $logPath
     )
-    $process = Start-Process -FilePath $EditorPath -ArgumentList $arguments -PassThru -Wait -WindowStyle Hidden
+    $process = Start-Process -FilePath $EditorPath -ArgumentList $arguments -PassThru -WindowStyle Hidden
+    # Wait for the Editor itself; Android/Hub background helpers may outlive it.
+    $process.WaitForExit()
     if ($process.ExitCode -ne 0) {
         throw "Week 07 APK build failed (exit $($process.ExitCode)). Inspect $logPathReal."
     }

@@ -123,6 +123,7 @@ namespace CourseSetup
             Assign(serialized, "mission", mission);
             serialized.ApplyModifiedPropertiesWithoutUndo();
 
+            StationHardwareBuilder.Apply(scene);
             EditorSceneManager.MarkSceneDirty(scene);
             if (!EditorSceneManager.SaveScene(scene, ScenePath))
                 throw new IOException("Could not save the Week 06 team scene.");
@@ -152,7 +153,8 @@ namespace CourseSetup
             Validate(scene);
             PlayerSettings.companyName = "WANG HAOBIN";
             PlayerSettings.productName = "Lost Station: Restart the Hatch";
-            PlayerSettings.bundleVersion = "0.2.0";
+            PlayerSettings.bundleVersion = "0.3.0";
+            PlayerSettings.Android.bundleVersionCode = 2;
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.wanghaobin.loststation");
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             Directory.CreateDirectory("Builds");

@@ -2,6 +2,8 @@
 
 最新个人作业状态见 [个人作业进度](Docs/Current_Personal_Assignment_Status.md)。2026 年 10 月 1 日用户又启动独立一人的小组项目，项目说明见 [《失联空间站：重启舱门》](Docs/Solo_SpaceStation_Project.md)。小组第 6 周的英文任务 UI 和第 7 周交付状态见 [整合记录](Docs/Week06_Team_Integration.md)与 [Week 07 交付目录](Docs/Week07/)。
 
+**2026-10-20 外观与动画更新：**当前小组场景已换成 E-07 能量核心、三夹爪配套插槽和双扇科技舱门。插入后按“夹紧 → 解锁 → 双门滑开 → 绿灯通行”播放 2.65 秒动画；15 项自动 Play 检查通过。新版 APK 为 `0.3.0`，最新截图、6 秒无声动画和验证边界见[硬件升级记录](Docs/Week07/Hardware_Upgrade.md)。打开新版请使用 `Course > Open Week 06 Team UI`；`Open Solo Space Station` 保留第 5 周旧场景。
+
 WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit 学习抓取，第 3 周使用 Meta XR Interaction SDK 学习移动与传送。独立小组项目复用第 3 周交互基础，制作单房间空间站任务。Quest 设备计划借用，当前尚未连接或实测；以前的电脑端演示使用 Meta XR Simulator，未把模拟器描述为 Quest 真机。课程方是否接受该替代方式仍需以课程要求或教师意见为准。
 
 ## 打开和练习

@@ -1,0 +1,26 @@
+{
+    "generatedUtc": "2026-10-20T11:14:22.2027212Z",
+    "verification": "Windowed Unity Play with Meta XR Simulator. Test script positions core and sets hasBeenGrabbed; no controller grip, human test or Quest. Video is silent, 20 fps, fixed evidence camera.",
+    "passed": true,
+    "passedChecks": [
+        "Hardware references and mechanism clip assigned",
+        "Simulator XR device active",
+        "Core uses replacement capsule collision",
+        "Initial closed gate blocks passage",
+        "Meta controller grab target enabled",
+        "Insertion locks core; passage remains blocked during charging",
+        "Split leaves move while passage collider remains enabled",
+        "Full sequence opens both leaves and releases passage collider",
+        "Mission status waits for complete opening",
+        "Both leaves complete 1.02 metre slide",
+        "Second insertion reaches partial opening",
+        "Mid-animation reset remains closed after original sequence duration",
+        "Reset restores both leaf poses",
+        "Reset restores dynamic core and grab targets",
+        "Reset restores mission status"
+    ],
+    "failedChecks": [],
+    "videoFrames": 120,
+    "knownSdkLogDecodeExceptionCount": 1,
+    "unexpectedErrorCount": 0
+}

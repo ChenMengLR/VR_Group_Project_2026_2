@@ -22,6 +22,7 @@ namespace CourseProject
 
         [Header("Feedback")]
         [SerializeField] private Transform hatch;
+        [SerializeField] private SpaceStationHardware hardware;
         [SerializeField] private Light socketLight;
         [SerializeField] private Light hatchLight;
         [SerializeField] private Renderer socketIndicator;
@@ -42,6 +43,7 @@ namespace CourseProject
         private bool escaped;
         private bool exitArmed;
         private bool resetPending;
+        private bool hatchOpen;
         private string currentStatus;
         private Coroutine hatchMotion;
         private GrabInteractable[] controllerGrabTargets;
@@ -49,6 +51,7 @@ namespace CourseProject
 
         public bool IsInserted => inserted;
         public bool IsEscaped => escaped;
+        public bool IsHatchOpen => hatchOpen;
         public string CurrentStatus => currentStatus;
         public AudioSource HumSource => humSource;
         public AudioSource CueSource => cueSource;
@@ -99,7 +102,7 @@ namespace CourseProject
                     InsertCore();
                 }
             }
-            else if (!escaped && playerHead != null && exitMarker != null)
+            else if (hatchOpen && !escaped && playerHead != null && exitMarker != null)
             {
                 var player = playerHead.position;
                 var exit = exitMarker.position;
@@ -128,10 +131,10 @@ namespace CourseProject
             socketIndicator.sharedMaterial = successMaterial;
             socketLight.color = new Color(0.20f, 1f, 0.42f);
             hatchLight.color = socketLight.color;
-            SetStatus("POWER RESTORED\nHATCH OPEN - EXIT");
+            SetStatus("POWER RESTORED\nSECURING CORE");
             PlayCue(cueSource, powerRestoredClip);
             StartCoroutine(PulseControllers());
-            hatchMotion = StartCoroutine(MoveHatch(hatchClosedPosition + Vector3.up * 2.5f));
+            hatchMotion = StartCoroutine(OpenHatchSequence());
         }
 
         [ContextMenu("Reset Solo Mission")]
@@ -158,6 +161,7 @@ namespace CourseProject
             escaped = false;
             exitArmed = false;
             resetPending = false;
+            hatchOpen = false;
             hasBeenGrabbed = false;
             coreGrab.enabled = true;
             foreach (var target in controllerGrabTargets) target.enabled = true;
@@ -173,10 +177,22 @@ namespace CourseProject
 
         private void ApplyStandby()
         {
+            if (hardware != null) hardware.ResetHardware();
             socketIndicator.sharedMaterial = standbyMaterial;
             socketLight.color = new Color(1f, 0.46f, 0.10f);
             hatchLight.color = new Color(0.12f, 0.40f, 1f);
             SetStatus("STATION OFFLINE\nGRAB THE CORE");
+        }
+
+        private IEnumerator OpenHatchSequence()
+        {
+            if (hardware != null)
+                yield return hardware.OpenHatch(SetStatus);
+            else
+                yield return MoveHatch(hatchClosedPosition + Vector3.up * 2.5f);
+            hatchOpen = true;
+            SetStatus("HATCH OPEN\nPROCEED TO EXIT");
+            hatchMotion = null;
         }
 
         private IEnumerator MoveHatch(Vector3 openPosition)
@@ -190,7 +206,6 @@ namespace CourseProject
                 yield return null;
             }
             hatch.localPosition = openPosition;
-            hatchMotion = null;
         }
 
         private IEnumerator PulseControllers()

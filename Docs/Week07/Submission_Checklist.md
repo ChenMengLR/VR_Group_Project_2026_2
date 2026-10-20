@@ -8,10 +8,12 @@ Course source: [Week 07 Midterm Project Presentation](https://app.notion.com/p/7
 
 | File | Purpose | Current verification |
 | --- | --- | --- |
-| `Wang_VR_Week07_CreativeAward_Draft.docx` | English HCI-form initial paper | Two A4 pages rendered and visually inspected; Quest and peer evaluation are explicitly Planned. |
-| `Wang_VR_Week07_Midterm.pptx` | Six-slide midterm talk, with Chinese presenter notes | All slides rendered and inspected. About four minutes of paper explanation, then a six-minute prototype demo cue sheet. |
-| `../../Deliverables/Week07/Wang_VR_Week07.apk` | Team-built Quest APK | Final UI scene rebuilt successfully on 2026-10-20; `aapt` reads package `com.wanghaobin.loststation`, version `0.2.0`, minimum Android SDK 32. SHA256: `CABFE917D8A1915BA79A858A3A1A5F789D0C44D232FB86BCCEAB7141F74BE9F2`. Device installation and runtime remain unverified until Quest is connected. |
+| `Wang_VR_Week07_CreativeAward_Draft.docx` | English HCI-form initial paper | Updated hardware description, evidence scope and scene image; two A4 pages rendered and visually inspected; Quest and peer evaluation are explicitly Planned. |
+| `Wang_VR_Week07_Midterm.pptx` | Six-slide midterm talk, with Chinese presenter notes | Updated with the E-07 core and split airlock; all slides rendered and inspected. About four minutes of paper explanation, then a six-minute prototype demo cue sheet. |
+| `../../Deliverables/Week07/Wang_VR_Week07.apk` | Team-built Quest APK | Core/coupler and split-airlock scene rebuilt successfully on 2026-10-20; APK size 106,977,811 bytes; `aapt` reads package `com.wanghaobin.loststation`, version `0.3.0` (version code 2), minimum Android SDK 32. SHA256: `AC6ADD7B4618882CF8C96D9DCEB6209F1312B3CE270B55A0353FDD4D6EB7CEB2`. Device installation and runtime remain unverified until Quest is connected. |
 | `../../CourseValidation/Runtime/Week06_UI_Status_EditorPreview.png`, `Week06_UI_Help_EditorPreview.png` | English UI screenshots | Actual Unity Editor camera renders, visually inspected. These are not Quest screenshots. |
+
+The [hardware upgrade notes](Hardware_Upgrade.md) include five Editor previews and a six-second silent automated Play animation. The core is positioned by the test script; it is not controller input or Quest footage. Fifteen Play checks passed, including a reset during opening. The updated source, report, PPT and APK are the current local deliverables; older Drive copies must be refreshed before sharing.
 
 The prior `CourseValidation/Week05_Simulator_Audio_Demo.mp4` is **Meta XR Simulator** evidence of the earlier gameplay and sound flow. It does not meet the Week 07 requirement for a real-headset playthrough of the new APK.
 
