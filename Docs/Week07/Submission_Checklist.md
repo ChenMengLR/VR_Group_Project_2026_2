@@ -17,7 +17,7 @@ The [hardware upgrade notes](Hardware_Upgrade.md) include five Editor previews a
 
 The prior `CourseValidation/Week05_Simulator_Audio_Demo.mp4` is **Meta XR Simulator** evidence of the earlier gameplay and sound flow. It does not meet the Week 07 requirement for a real-headset playthrough of the new APK.
 
-The code, scene, evidence and Git LFS APK were pushed in [group-repository commit 44dc15a](https://github.com/ChenMengLR/VR_Group_Project_2026_2/commit/44dc15a235d6e4b3a222c08ae6789f41cd856480). The [APK file page](https://github.com/ChenMengLR/VR_Group_Project_2026_2/blob/main/Deliverables/Week07/Wang_VR_Week07.apk) is an upload location; the instructor's access and download should still be checked before emailing it. The English DOCX and PPTX are also saved in a private Drive folder; private Drive links are not submission links until the instructor can open them.
+The updated hardware, scene, evidence, English DOCX, PPTX and Git LFS APK were pushed in [group-repository commit 238a69c](https://github.com/ChenMengLR/VR_Group_Project_2026_2/commit/238a69c). The [APK file page](https://github.com/ChenMengLR/VR_Group_Project_2026_2/blob/main/Deliverables/Week07/Wang_VR_Week07.apk) is an upload location; the instructor's access and download should still be checked before emailing it. Earlier DOCX and PPTX copies are saved in a private Drive folder; they predate this hardware update, and private Drive links are not submission links until the instructor can open them.
 
 ## Still required for a complete Week 07 submission
 
