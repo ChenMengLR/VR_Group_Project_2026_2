@@ -53,6 +53,17 @@ namespace CourseSetup
             Debug.Log("Week 05 personal sound practice ready in Meta XR Simulator: compare socket distance and left/right, then grab and release the core.");
         }
 
+        [MenuItem("Course/Open Week 06 Team UI", priority = 4)]
+        public static void OpenWeek06TeamUI()
+        {
+            Guard();
+            RequireWindowsSimulatorTarget();
+            SetDesktopStartup(true);
+            EditorSceneManager.OpenScene(Week06TeamUIBuilder.ScenePath);
+            EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Activate");
+            Debug.Log("Week 06 team UI ready in Meta XR Simulator. Use the controller ray to open help or reset the mission.");
+        }
+
         public static void SetDesktopStartup(bool enabled)
         {
             XRGeneralSettingsPerBuildTarget store;

@@ -41,12 +41,15 @@ namespace CourseProject
         private bool inserted;
         private bool escaped;
         private bool exitArmed;
+        private bool resetPending;
+        private string currentStatus;
         private Coroutine hatchMotion;
         private GrabInteractable[] controllerGrabTargets;
         private HandGrabInteractable[] handGrabTargets;
 
         public bool IsInserted => inserted;
         public bool IsEscaped => escaped;
+        public string CurrentStatus => currentStatus;
         public AudioSource HumSource => humSource;
         public AudioSource CueSource => cueSource;
         public AudioClip PowerRestoredClip => powerRestoredClip;
@@ -70,6 +73,11 @@ namespace CourseProject
 
         private void Update()
         {
+            if (resetPending)
+            {
+                if (coreGrab.GrabPoints.Count == 0) ResetMission();
+                return;
+            }
             if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame ||
                 OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
             {
@@ -100,7 +108,7 @@ namespace CourseProject
                 if (exitArmed && exitDistance < 0.75f)
                 {
                     escaped = true;
-                    SetStatus("MISSION COMPLETE\nB / R TO REPLAY");
+                    SetStatus("MISSION COMPLETE\nRETURN FOR REPLAY");
                     PlayCue(exitCueSource, missionCompleteClip);
                 }
             }
@@ -131,12 +139,13 @@ namespace CourseProject
         {
             if (inserted && playerHead != null && playerHead.position.x >= 3.0f)
             {
-                SetStatus("RETURN THROUGH HATCH\nTHEN PRESS B / R");
+                SetStatus("RETURN THROUGH HATCH\nTO RESET MISSION");
                 return;
             }
             if (coreGrab.GrabPoints.Count > 0)
             {
-                SetStatus("RELEASE CORE\nTHEN PRESS B / R");
+                resetPending = true;
+                SetStatus("RELEASE CORE\nTO RESET MISSION");
                 return;
             }
             if (hatchMotion != null)
@@ -148,6 +157,7 @@ namespace CourseProject
             inserted = false;
             escaped = false;
             exitArmed = false;
+            resetPending = false;
             hasBeenGrabbed = false;
             coreGrab.enabled = true;
             foreach (var target in controllerGrabTargets) target.enabled = true;
@@ -194,6 +204,7 @@ namespace CourseProject
 
         private void SetStatus(string message)
         {
+            currentStatus = message;
             if (statusText != null) statusText.text = message;
         }
 

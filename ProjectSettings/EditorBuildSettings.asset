@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01_Scenes/Solo_SpaceStation.unity
-    guid: a7ecc1eca7f206d458e344b4a3256ebd
+    path: Assets/01_Scenes/Week06_TeamUI_Wang.unity
+    guid: fd9cb2fe74c7181478d9d64b227ab7f3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 7da8faf8312e0d74d8e27f3cd130aecb, type: 2}

@@ -16,6 +16,7 @@
 *.mp3 filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
+*.apk filter=lfs diff=lfs merge=lfs -text
 # Preserve exported evidence bytes so the SHA256 manifest also verifies after clone.
 CourseValidation/Runtime/Week03_* -text
 CourseValidation/Runtime/Week03_Evidence/** -text
