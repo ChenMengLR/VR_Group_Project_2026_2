@@ -79,6 +79,17 @@ namespace CourseSetup
             }
         }
 
+        [MenuItem("Course/Open Station for Quest Air Link", priority = 5)]
+        public static void OpenStationAirLink()
+        {
+            Guard();
+            RequireWindowsSimulatorTarget();
+            EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Deactivate");
+            SetDesktopStartup(true);
+            EditorSceneManager.OpenScene(Week06TeamUIBuilder.ScenePath);
+            Debug.Log("Station ready for Quest Link / Air Link. Connect Quest to the PC Meta Link runtime, then press Play. Left stick moves; left Menu opens controls.");
+        }
+
         private static void Guard()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling)

@@ -1,0 +1,17 @@
+{
+    "generatedUtc": "2026-10-21T07:25:53.9863003Z",
+    "scope": "Windowed Unity Play using Meta XR Simulator; synthetic stick input through production controls, real lifecycle/frames/physics. No physical Quest input, ray-click acceptance or video recording.",
+    "passed": true,
+    "checks": [
+        "Simulator XR device active",
+        "Actual Start finds station floor and enables locomotion",
+        "XR tracked head height initialized",
+        "Synthetic left stick moves rig in actual Play frames",
+        "Visible controls menu suppresses locomotion during Play",
+        "Right teleport restores after closing menu and centering sticks"
+    ],
+    "error": "",
+    "unexpectedErrors": 0,
+    "groundWarnings": 0,
+    "knownMrukLogDecodeExceptions": 1
+}

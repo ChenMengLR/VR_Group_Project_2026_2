@@ -44,6 +44,7 @@ namespace CourseProject
         private bool exitArmed;
         private bool resetPending;
         private bool hatchOpen;
+        private bool legacyControllerReset;
         private string currentStatus;
         private Coroutine hatchMotion;
         private GrabInteractable[] controllerGrabTargets;
@@ -61,6 +62,7 @@ namespace CourseProject
 
         private void Awake()
         {
+            legacyControllerReset = GetComponent<SpaceStationControls>() == null;
             coreStartPosition = coreBody.position;
             coreStartRotation = coreBody.rotation;
             hatchClosedPosition = hatch.localPosition;
@@ -81,8 +83,9 @@ namespace CourseProject
                 if (coreGrab.GrabPoints.Count == 0) ResetMission();
                 return;
             }
-            if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame ||
-                OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
+            // Current team scene uses B as Back/Close; keep archived Week 05 scenes playable.
+            if ((Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame) ||
+                (legacyControllerReset && OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)))
             {
                 ResetMission();
                 return;

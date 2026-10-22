@@ -124,6 +124,7 @@ namespace CourseSetup
             serialized.ApplyModifiedPropertiesWithoutUndo();
 
             StationHardwareBuilder.Apply(scene);
+            StationControlsBuilder.Apply(scene);
             EditorSceneManager.MarkSceneDirty(scene);
             if (!EditorSceneManager.SaveScene(scene, ScenePath))
                 throw new IOException("Could not save the Week 06 team scene.");
@@ -153,8 +154,8 @@ namespace CourseSetup
             Validate(scene);
             PlayerSettings.companyName = "WANG HAOBIN";
             PlayerSettings.productName = "Lost Station: Restart the Hatch";
-            PlayerSettings.bundleVersion = "0.3.0";
-            PlayerSettings.Android.bundleVersionCode = 2;
+            PlayerSettings.bundleVersion = "0.4.0";
+            PlayerSettings.Android.bundleVersionCode = 3;
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.wanghaobin.loststation");
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             Directory.CreateDirectory("Builds");
@@ -169,6 +170,9 @@ namespace CourseSetup
             if (result.summary.result != BuildResult.Succeeded)
                 throw new InvalidOperationException("Week 07 Quest APK build failed: " + result.summary.result);
             Debug.Log("WEEK07_QUEST_APK_OK: " + output + " | " + result.summary.totalSize + " bytes");
+            AssetDatabase.SaveAssets();
+            // Meta editor background tasks can outlive a successful build and exhaust -quit's async timeout.
+            if (Application.isBatchMode) EditorApplication.Exit(0);
         }
 
         [MenuItem("Course/Week 06/Capture UI Previews", priority = 62)]

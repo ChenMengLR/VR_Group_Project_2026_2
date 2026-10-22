@@ -2,9 +2,15 @@
 
 最新个人作业状态见 [个人作业进度](Docs/Current_Personal_Assignment_Status.md)。2026 年 10 月 1 日用户又启动独立一人的小组项目，项目说明见 [《失联空间站：重启舱门》](Docs/Solo_SpaceStation_Project.md)。小组第 6 周的英文任务 UI 和第 7 周交付状态见 [整合记录](Docs/Week06_Team_Integration.md)与 [Week 07 交付目录](Docs/Week07/)。
 
-**2026-10-20 外观与动画更新：**当前小组场景已换成 E-07 能量核心、三夹爪配套插槽和双扇科技舱门。插入后按“夹紧 → 解锁 → 双门滑开 → 绿灯通行”播放 2.65 秒动画；15 项自动 Play 检查通过。新版 APK 为 `0.3.0`，最新截图、6 秒无声动画和验证边界见[硬件升级记录](Docs/Week07/Hardware_Upgrade.md)。打开新版请使用 `Course > Open Week 06 Team UI`；`Open Solo Space Station` 保留第 5 周旧场景。
+**2026-10-22 报告修订：**第七周英文报告已加入作者单位、确认邮箱和 Bora Youn 通讯作者标注；报告与六页 PPT 同步更新最新操作和 10 月 21 日 Quest 2 USB Link 实机录像证据，并加入真实录像帧。原生 APK 安装及头显 Camera 录像、同学测试保持待完成。Wang 小组与第七周卡片现已存在，汇报为 10 月 22 日 15:45 KST；提交方式、时间及尚未发送的邮件草稿见[更新后的清单](Docs/Week07/Submission_Checklist.md)。本地修订不代表邮件或课程卡片已提交。
 
-WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit 学习抓取，第 3 周使用 Meta XR Interaction SDK 学习移动与传送。独立小组项目复用第 3 周交互基础，制作单房间空间站任务。Quest 设备计划借用，当前尚未连接或实测；以前的电脑端演示使用 Meta XR Simulator，未把模拟器描述为 Quest 真机。课程方是否接受该替代方式仍需以课程要求或教师意见为准。
+**2026-10-21 实机演示：**已录制用户佩戴 Quest 2、通过 USB Link 操作 Windows Unity 游戏的真实流程，并剪为 [54 秒连续演示](Deliverables/Week07/Wang_VR_Week07_PCLink_Demo.mp4)。包含重置、帮助面板、移动、抓取、插入、开门及任务完成，保留游戏音轨。详见[录制与剪辑记录](CourseValidation/Runtime/Quest_PCLink_Demo_20261021.md)。此视频为 PC VR；第 7 周要求的原生 APK 安装及头显内录像仍未完成。
+
+**2026-10-21 操作更新：**当前小组场景默认支持左摇杆行走/平移、右摇杆 30° 转向和前推传送。左手菜单键打开操作说明和重置面板，B 只关闭菜单。修复了角色碰撞层遗漏空间站地板/墙壁的问题。28 项场景检查和 6 项模拟器 Play 检查通过，本地 APK 已更新为 **0.4.0 / versionCode 3**。详见[操作与验证记录](Docs/StationControls_20261021.md)。Air Link 使用 `Course > Open Station for Quest Air Link`；电脑模拟器使用 `Course > Open Week 06 Team UI`。
+
+**2026-10-20 外观与动画更新：**当前小组场景已换成 E-07 能量核心、三夹爪配套插槽和双扇科技舱门。插入后按“夹紧 → 解锁 → 双门滑开 → 绿灯通行”播放 2.65 秒动画；15 项自动 Play 检查通过。该次 APK 为 `0.3.0`，截图、6 秒无声动画和验证边界见[硬件升级记录](Docs/Week07/Hardware_Upgrade.md)。`Open Solo Space Station` 保留第 5 周旧场景。
+
+WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit 学习抓取，第 3 周使用 Meta XR Interaction SDK 学习移动与传送。独立小组项目复用第 3 周交互基础，制作单房间空间站任务。2026-10-20 已连接 Quest 2 Air Link，用户确认进入空间站并能随头部转动观察；2026-10-21 又以 USB Link 完成上述真实操作录像。两者均为 PC VR，原生 APK 安装与运行仍待验证。更早的电脑端演示使用 Meta XR Simulator。
 
 ## 打开和练习
 
@@ -19,10 +25,19 @@ WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit �
 - `Course > Open Solo Space Station`：打开独立小组项目场景，启用桌面 OpenXR 与 Meta XR Simulator。
 - `Course > Open Week 05 Personal Sound Practice`：打开第 5 周个人练习场景，启用同一模拟器；戴立体声耳机比较插槽远近与左右方位，再试抓取/松开音效。
 - `Course > Open Week 06 Team UI`：打开第 6 周团队场景，查看英文 Mission Console；控制器射线交互需在 Play 中继续核验。
+- `Course > Open Station for Quest Air Link`：打开同一新版小组场景，停用 Meta XR Simulator，启用桌面 OpenXR；先连接 Quest Air Link，并将电脑 Meta Quest Link 设为活动 OpenXR 运行时，然后按 Play。
 
 第 2 周点击 Game 获得焦点后，用 WASD 移动，H 切换头部，[ / ] 选择左/右设备。G 抓取右手、T 激活右手；左手加 Shift。反复按同一括号会切换 Controller/Hand，练习时保持 Controller。详见 Docs 中的课程指南。
 
 第 3 周本机 Simulator 205 绑定为 M 菜单、Y 摇杆向上、U 抓握、T Trigger。I 是按下摇杆，不是向上。打开 Locomotion Settings 切换 Slide/Teleport、Snap/Smooth Turn；按键以本机 Input Bindings 为准。
+
+新版小组场景已固定常用 VR 操作，不再通过第 3 周示例的 Locomotion Settings 切换模式：
+
+- 左摇杆前后：行走/后退；左右：平移。方向跟随头部朝向在地面的投影，速度约 1.5 米/秒。
+- 右摇杆左右：每次 30° 转向，回中后再次拨动；前推：显示传送弧线，对准有效蓝色平台后松杆传送。摇杆按下可取消。
+- 中指 Grip：按住抓核心，松开释放；食指 Trigger：射线点击 UI。
+- 左手 ≡ 菜单键：打开/关闭操作面板；右手 B：关闭面板。RESET MISSION 在面板或墙面控制台中点击；电脑版仍保留 R。
+- 打开菜单或失去 XR 输入焦点时停用摇杆移动；恢复后先让两个摇杆回中。A/X/Y 无新增任务快捷键，右手 Meta 系统键保留系统用途。
 
 ## 环境版本
 
@@ -31,7 +46,7 @@ WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit �
 - Meta XR All-in-One / Interaction SDK `205.0.0`；独立 Windows Meta XR Simulator `205.0`。
 - Android Build Support；OpenJDK `17.0.18+8`；NDK `27.2.12479018`（r27c）；SDK Build/Platform Tools `36.0.0`；Command-line Tools `16.0`；CMake `3.22.1`。
 
-Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Support。课程使用 ControllersOnly，不启用真实手追踪。独立小组场景已成功构建 Android APK，并在 Windows 编辑器的 Meta XR Simulator 中走通控制器传送、抓取、插入核心与开门流程；尚未进行 Quest 真机测试。
+Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Support。课程使用 ControllersOnly，不启用真实手追踪。独立小组场景已成功构建 Android APK，并在 Windows 编辑器的 Meta XR Simulator 中走通控制器传送、抓取、插入核心与开门流程；Quest 2 USB Link 的真实完整流程已于 10 月 21 日录制，原生 APK 安装与独立运行仍需实机验证。
 
 ## 场景和任务
 
@@ -64,7 +79,7 @@ Windows 和 Android 已配置 OpenXR/Oculus Touch，Android 启用 Meta Quest Su
 - 另录制[第 5 周有声模拟器演示](CourseValidation/Week05_Simulator_Audio_Demo.mp4)，同一 Play 会话完成模拟手柄抓放、供电和出口；Game Bar 捕获真实 Windows 游戏音频，发布版统一加 8 dB 便于展示。视频明确标注 Meta XR Simulator / 非 Quest 真机，且不是学生手动操作。Quest 耳机声场与真机录像仍待设备实测。
 - 第 6 周场景通过 Unity 构建器结构检查：Meta Ray Canvas、两个按钮的持久回调、唯一 EventSystem / PointableCanvasModule、零 Missing Script；两张 Editor 相机预览已逐张查看。窗口化 Meta XR Simulator [Play 报告](CourseValidation/Runtime/Week06_TeamUI_PlaySmoke.json)验证 Help/Reset 的合成回调和状态同步；报告保留一条 Meta MR Utility Kit 原生日志解码异常。第 7 周 Quest APK `0.2.0` 已构建，Android `aapt` 确认包名 `com.wanghaobin.loststation`。此阶段不声称按钮已在真实控制器射线下点中，也不声称 Quest 或同学试玩已经完成。
 
-测试视频和截图属于自动协助验证，不能声称为学生本人键鼠演示或 Quest 真机录像。真实运行报告会明确记录验证方式及范围。
+各项证据以对应记录的验证方式为准。自动输入、模拟器录像与 Editor 预览不能声称为学生本人实机操作；10 月 21 日另有用户实际佩戴 Quest 2、通过 USB Link 完成任务的 PC VR 录像。该录像仍不代表原生 Quest APK 安装或独立运行。
 
 ## 提交作业
 

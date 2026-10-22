@@ -1,6 +1,6 @@
 # Week 07: E-07 core, coupler and split airlock
 
-Updated 2026-10-20 for *Lost Station: Restart the Hatch*.
+Hardware update: 2026-10-20. Evidence status refreshed 2026-10-22 for *Lost Station: Restart the Hatch*.
 
 ## Implemented in the current team scene
 
@@ -41,8 +41,9 @@ The original mechanism WAV is generated with
 
 Runtime sequencing is in `Assets/02_Scripts/SpaceStationHardware.cs`; the mission
 coordinates it in `SpaceStationMission.cs`. The Week 06 scene builder calls the
-hardware builder, preserving the separate Week 05 scene. The latest APK version
-is 0.3.0 (Android version code 2).
+hardware builder, preserving the separate Week 05 scene. This hardware build was
+0.3.0 (Android version code 2). The subsequent controls update produces the current
+local APK 0.4.0 (version code 3); native Quest installation remains unverified.
 
 ## Verified on this computer
 
@@ -63,9 +64,12 @@ is 0.3.0 (Android version code 2).
   sets the prior-grab flag; **it is not controller input, a human playthrough or
   a headset recording**. The caption is part of this evidence video only.
 
-The new core's actual controller grip, Quest frame rate, hardware haptics, audio
-balance and full exit flow still need testing on the borrowed Quest. Do not
-replace the required Week 07 headset recording with this clip.
+On 2026-10-21, the student recorded actual Quest 2 controller grabbing, insertion,
+door animation and exit completion through USB Link to Windows Unity. The
+[54-second PC VR video](../../Deliverables/Week07/Wang_VR_Week07_PCLink_Demo.mp4)
+includes game sound. Standalone APK performance, perceived haptics, sustained
+comfort and the course-required in-headset APK recording remain pending. Neither
+the six-second scripted clip nor the PC VR video replaces that native recording.
 
 ## Open and try the current version
 

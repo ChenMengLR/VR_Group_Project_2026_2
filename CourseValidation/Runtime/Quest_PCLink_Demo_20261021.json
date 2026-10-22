@@ -1,0 +1,36 @@
+{
+  "recording_date": "2026-10-21",
+  "headset": "Meta Quest 2",
+  "platform": "Windows Unity PC VR",
+  "connection": "USB Link",
+  "native_quest_apk": false,
+  "operator": "User with actual headset and controllers",
+  "source": "Logs\\Recording_20261021\\Quest_PC_Actual_Take01.mp4",
+  "source_sha256": "96ec86c8838b8b098f54e90c71ee55190763c3c339bde05a1ff66e817d0c7cab",
+  "output": "Deliverables\\Week07\\Wang_VR_Week07_PCLink_Demo.mp4",
+  "output_sha256": "40ddac5dd68c8b7f042f0d75d43ca935d4e1f38d1a098d1dfde9ae95b9bb8a24",
+  "source_start_seconds": 18.5,
+  "source_end_seconds": 72.5,
+  "continuous_excerpt": true,
+  "duration_seconds": 54.0,
+  "internal_cuts": 0,
+  "speed": 1.0,
+  "audio_gain_db": 4,
+  "added_music_or_voiceover": false,
+  "overlays": "English game title for 4 seconds; PC VR platform label throughout",
+  "recorded_observations": [
+    "Reset mission",
+    "Help panel toggle",
+    "Movement",
+    "Core grab and reposition",
+    "Core insertion",
+    "Power feedback",
+    "Split airlock animation",
+    "Exit and mission complete"
+  ],
+  "verification_limits": [
+    "Not native APK installation or validation",
+    "Not proof of haptic perception or exact turn angle",
+    "Not peer usability testing"
+  ]
+}
