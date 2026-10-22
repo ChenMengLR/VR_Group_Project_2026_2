@@ -2,6 +2,8 @@
 
 **Lost Station: Restart the Hatch** — Wang Haobin, independent group.
 
+**Submitted on 22 October 2026:** the [Week 7 Notion card](https://app.notion.com/p/End-to-End-Prototype-4367c00fe5ad82769000017b5699cdff) shows **Submitted** with this date and links pinned to material commit `3055ae9`. See the [verified submission receipt](Submission_Receipt_20261022.md). Native recording and peer evaluation remain pending.
+
 Current materials prepared on **22 October 2026**:
 
 - [English paper (DOCX)](Wang_VR_Week07_CreativeAward_Draft.docx)

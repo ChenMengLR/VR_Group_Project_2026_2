@@ -1,5 +1,7 @@
 # VR Project 2026 2
 
+**2026-10-22 提交回执：**最新版报告、PPT、0.4.0 APK、54 秒 Quest Link PC VR 演示及 ZIP 已上传小组 GitHub（材料提交 `3055ae9`）。Wang 的第七周 Notion 卡已填写固定版本材料链接，日期为 2026-10-22，状态为 **Submitted**；刷新后已核对保存。原生 APK 录像与同学测试仍待补充，邮件未发送，教师接受情况未确认。见[提交回执](Docs/Week07/Submission_Receipt_20261022.md)和[材料入口](Docs/Week07/README.md)。以下早期“仅本地／待上传”说明保留其当时的历史语境。
+
 最新个人作业状态见 [个人作业进度](Docs/Current_Personal_Assignment_Status.md)。2026 年 10 月 1 日用户又启动独立一人的小组项目，项目说明见 [《失联空间站：重启舱门》](Docs/Solo_SpaceStation_Project.md)。小组第 6 周的英文任务 UI 和第 7 周交付状态见 [整合记录](Docs/Week06_Team_Integration.md)与 [Week 07 交付目录](Docs/Week07/)。
 
 **2026-10-22 报告修订：**第七周英文报告已加入作者单位、确认邮箱和 Bora Youn 通讯作者标注；报告与六页 PPT 同步更新最新操作和 10 月 21 日 Quest 2 USB Link 实机录像证据，并加入真实录像帧。原生 APK 安装及头显 Camera 录像、同学测试保持待完成。Wang 小组与第七周卡片现已存在，汇报为 10 月 22 日 15:45 KST；提交方式、时间及尚未发送的邮件草稿见[更新后的清单](Docs/Week07/Submission_Checklist.md)。本地修订不代表邮件或课程卡片已提交。

@@ -1,5 +1,7 @@
 # Week 07 midterm delivery — Wang
 
+> **Submission update — 22 October 2026:** Current artifacts were uploaded to the group GitHub in commit `3055ae921ff20d3858adfad7a0d840c6e8871039`. The Week 7 Notion card now has **Submitted**, submission date **2026-10-22**, a pinned submission-index link and the individual file links. All persisted after page reload. See the [submission receipt](Submission_Receipt_20261022.md). Earlier local-only and blank-card observations below describe the pre-upload state. Native APK recording and peer evaluation remain pending; the email draft has not been sent and instructor acceptance is unconfirmed.
+
 Project: **Lost Station: Restart the Hatch** / 《失联空间站：重启舱门》
 Group: **Wang Haobin, independent student group**
 Course source: [Week 07 Midterm Project Presentation](https://app.notion.com/p/7-Midterm-Project-Presentation-3cf7c00fe5ad8131bac3ee94920ce56f)
