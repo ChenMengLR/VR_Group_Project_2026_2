@@ -1,5 +1,11 @@
 # VR Project 2026 2
 
+**第九周小组作业（2026-11-05）**　[Quest APK、问题记录与复测结果](Docs/Week09/README.md)。其中列出了新版关卡的模拟器验证和待补的 Quest 2 独立运行测试。
+
+**2026-11-05 飞船内舱与供电更新**　探索环线采用原创舱壁、甲板和设备柜贴图，舷窗可以看到轨道下方的行星。开场启用琥珀色应急照明，蓝色灯带指向取芯路线。将核心插入插槽后，插槽区、主通道和上层补给区的主灯在 2.4 秒内依次亮起。重置任务即可再次体验。见[同机位游戏截图](CourseValidation/Runtime/CabinPower_20261105/Cabin_Power_Comparison.jpg)和[模拟器验证记录](CourseValidation/Runtime/CabinPower_20261105/StationRoute_PlaySmoke.json)。
+
+**2026-10-29 新关卡：**新增 `Station_RecoveryRoute` 探索环线，利用原有移动、传送、抓取、供电、舱门动画和出口机制，增加较长入口、反应堆遮挡、0.6 米高架补给区与双缓坡。沿蓝灯上坡取芯，沿琥珀灯下坡返回插槽，通电后经绿灯舱门撤离。电脑打开 `Course > Exploration Level > Open Recovery Route - Simulator`；Quest Link / Air Link 菜单现在也打开这个新场景。详细路线、验证和版本边界见[关卡升级说明](Docs/Station_RecoveryRoute_20261029.md)。本次修改在本地，既有第七周 APK 与已提交材料仍使用此前版本。
+
 **2026-10-22 提交回执：**最新版报告、PPT、0.4.0 APK、54 秒 Quest Link PC VR 演示及 ZIP 已上传小组 GitHub（材料提交 `3055ae9`）。Wang 的第七周 Notion 卡已填写固定版本材料链接，日期为 2026-10-22，状态为 **Submitted**；刷新后已核对保存。原生 APK 录像与同学测试仍待补充，邮件未发送，教师接受情况未确认。见[提交回执](Docs/Week07/Submission_Receipt_20261022.md)和[材料入口](Docs/Week07/README.md)。以下早期“仅本地／待上传”说明保留其当时的历史语境。
 
 最新个人作业状态见 [个人作业进度](Docs/Current_Personal_Assignment_Status.md)。2026 年 10 月 1 日用户又启动独立一人的小组项目，项目说明见 [《失联空间站：重启舱门》](Docs/Solo_SpaceStation_Project.md)。小组第 6 周的英文任务 UI 和第 7 周交付状态见 [整合记录](Docs/Week06_Team_Integration.md)与 [Week 07 交付目录](Docs/Week07/)。
@@ -27,7 +33,8 @@ WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit �
 - `Course > Open Solo Space Station`：打开独立小组项目场景，启用桌面 OpenXR 与 Meta XR Simulator。
 - `Course > Open Week 05 Personal Sound Practice`：打开第 5 周个人练习场景，启用同一模拟器；戴立体声耳机比较插槽远近与左右方位，再试抓取/松开音效。
 - `Course > Open Week 06 Team UI`：打开第 6 周团队场景，查看英文 Mission Console；控制器射线交互需在 Play 中继续核验。
-- `Course > Open Station for Quest Air Link`：打开同一新版小组场景，停用 Meta XR Simulator，启用桌面 OpenXR；先连接 Quest Air Link，并将电脑 Meta Quest Link 设为活动 OpenXR 运行时，然后按 Play。
+- `Course > Exploration Level > Open Recovery Route - Simulator`：打开 10 月 29 日探索环线，启用 Meta XR Simulator。
+- `Course > Open Station for Quest Air Link`：打开 10 月 29 日探索环线，停用 Meta XR Simulator，启用桌面 OpenXR；先连接 Quest Link / Air Link，并将电脑 Meta Quest Link 设为活动 OpenXR 运行时，然后按 Play。
 
 第 2 周点击 Game 获得焦点后，用 WASD 移动，H 切换头部，[ / ] 选择左/右设备。G 抓取右手、T 激活右手；左手加 Shift。反复按同一括号会切换 Controller/Hand，练习时保持 Controller。详见 Docs 中的课程指南。
 

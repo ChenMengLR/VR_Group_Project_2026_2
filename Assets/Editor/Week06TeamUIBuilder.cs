@@ -152,24 +152,43 @@ namespace CourseSetup
                 throw new InvalidOperationException("Switch Unity to Android before building the Week 07 APK.");
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             Validate(scene);
+            BuildQuestScene(ScenePath, "0.4.0", 3, "Builds/Wang_VR_Week07.apk", "WEEK07_QUEST_APK_OK");
+        }
+
+        [MenuItem("Course/Exploration Level/Build Week 09 Quest APK")]
+        public static void BuildRecoveryRouteApk()
+        {
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                throw new InvalidOperationException("Switch Unity to Android before building the Week 09 APK.");
+            StationRouteBuilder.RequireSavedEditScene();
+            var scene = EditorSceneManager.OpenScene(StationRouteBuilder.ScenePath, OpenSceneMode.Single);
+            if (!scene.GetRootGameObjects().Any(root => root.GetComponentInChildren<StationCabinPower>(true)) ||
+                LightmapSettings.lightmaps.Length == 0 || LightmapSettings.lightProbes == null ||
+                LightmapSettings.lightProbes.count == 0)
+                throw new InvalidOperationException("The recovery route needs the cabin power system, baked lightmaps and probes.");
+            BuildQuestScene(StationRouteBuilder.ScenePath, "0.5.0", 4,
+                "Builds/Wang_LostStation_Week09_Quest.apk", "WEEK09_QUEST_APK_OK");
+        }
+
+        private static void BuildQuestScene(string scenePath, string version, int versionCode, string output, string successMarker)
+        {
             PlayerSettings.companyName = "WANG HAOBIN";
             PlayerSettings.productName = "Lost Station: Restart the Hatch";
-            PlayerSettings.bundleVersion = "0.4.0";
-            PlayerSettings.Android.bundleVersionCode = 3;
+            PlayerSettings.bundleVersion = version;
+            PlayerSettings.Android.bundleVersionCode = versionCode;
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.wanghaobin.loststation");
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             Directory.CreateDirectory("Builds");
-            const string output = "Builds/Wang_VR_Week07.apk";
             var result = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
-                scenes = new[] { ScenePath },
+                scenes = new[] { scenePath },
                 locationPathName = output,
                 target = BuildTarget.Android,
                 options = BuildOptions.None
             });
             if (result.summary.result != BuildResult.Succeeded)
-                throw new InvalidOperationException("Week 07 Quest APK build failed: " + result.summary.result);
-            Debug.Log("WEEK07_QUEST_APK_OK: " + output + " | " + result.summary.totalSize + " bytes");
+                throw new InvalidOperationException("Quest APK build failed: " + result.summary.result);
+            Debug.Log(successMarker + ": " + output + " | " + result.summary.totalSize + " bytes | scene=" + scenePath);
             AssetDatabase.SaveAssets();
             // Meta editor background tasks can outlive a successful build and exhaust -quit's async timeout.
             if (Application.isBatchMode) EditorApplication.Exit(0);

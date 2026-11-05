@@ -1,0 +1,22 @@
+{
+    "scope": "Matched Unity Editor camera renders of the saved scene; lighting explicitly previewed at 0% and 100%.",
+    "generatedUtc": "2026-11-05T04:47:06.3736405Z",
+    "error": "",
+    "passed": true,
+    "textureAssets": [
+        "Assets/04_Images/ShipCabin/Deck_BaseColor.png",
+        "Assets/04_Images/ShipCabin/Hull_BaseColor.png",
+        "Assets/04_Images/ShipCabin/Service_BaseColor.png"
+    ],
+    "powerBanks": 3,
+    "fillLights": 3,
+    "lensRenderers": 3,
+    "entranceAndDockEmergency": [
+        26.703155517578126,
+        30.353452682495118
+    ],
+    "entranceAndDockRestored": [
+        58.71587371826172,
+        59.02483367919922
+    ]
+}

@@ -7,6 +7,7 @@
 *.prefab text eol=lf
 *.mat text eol=lf -whitespace
 *.asset text eol=lf
+Assets/01_Scenes/Station_RecoveryRoute/LightingData.asset binary
 *.anim text eol=lf
 *.controller text eol=lf
 *.fbx filter=lfs diff=lfs merge=lfs -text

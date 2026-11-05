@@ -1,0 +1,29 @@
+{
+  "verifiedUtc": "2026-11-05T04:56:42+00:00",
+  "file": "Wang_LostStation_Week09_Quest.apk",
+  "bytes": 112247043,
+  "sha256": "1b71cade3a6cdc2a3c40f71cc1e27e4c9ceded119b3656205fe793cf91b7c7e5",
+  "unityVersion": "6000.3.24f1",
+  "applicationId": "com.wanghaobin.loststation",
+  "versionName": "0.5.0",
+  "versionCode": 4,
+  "androidMinSdk": 32,
+  "androidTargetSdk": 34,
+  "abi": "arm64-v8a",
+  "headTrackingFeature": true,
+  "launchActivity": "com.unity3d.player.UnityPlayerGameActivity",
+  "apkSignatureVerified": true,
+  "sameSignerAsWeek07": true,
+  "signerCertificateSha256": "a14409c7bf857aa6f2a54f1c2a63fa94f10bcd8dfbdd2845e0bfd93a56532203",
+  "zipCrcPassed": true,
+  "packagedScene": "Assets/01_Scenes/Station_RecoveryRoute.unity",
+  "packagedSceneLevels": 1,
+  "packagedSceneObjects": [
+    "RecoveryRoute_Environment",
+    "FlightDeck_Systems",
+    "PowerCircuit_0",
+    "PowerCircuit_1",
+    "PowerCircuit_2"
+  ],
+  "verificationScope": "Android package inspection. Standalone Quest installation, physical controls and device frame time require an on-device retest."
+}

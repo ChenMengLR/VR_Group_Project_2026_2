@@ -49,10 +49,12 @@ namespace CourseProject
         private Coroutine hatchMotion;
         private GrabInteractable[] controllerGrabTargets;
         private HandGrabInteractable[] handGrabTargets;
+        private SpaceStationRoute route;
 
         public bool IsInserted => inserted;
         public bool IsEscaped => escaped;
         public bool IsHatchOpen => hatchOpen;
+        public bool HasAcquiredCore => hasBeenGrabbed;
         public string CurrentStatus => currentStatus;
         public AudioSource HumSource => humSource;
         public AudioSource CueSource => cueSource;
@@ -62,6 +64,7 @@ namespace CourseProject
 
         private void Awake()
         {
+            route = GetComponent<SpaceStationRoute>();
             legacyControllerReset = GetComponent<SpaceStationControls>() == null;
             coreStartPosition = coreBody.position;
             coreStartRotation = coreBody.rotation;
@@ -96,7 +99,7 @@ namespace CourseProject
                 if (coreGrab.GrabPoints.Count > 0)
                 {
                     hasBeenGrabbed = true;
-                    SetStatus("CORE ACQUIRED\nPLACE IN SOCKET");
+                    SetStatus(route != null ? "CORE ACQUIRED\nRETURN TO AMBER COUPLER" : "CORE ACQUIRED\nPLACE IN SOCKET");
                 }
 
                 if (hasBeenGrabbed && coreGrab.GrabPoints.Count == 0 &&
@@ -111,7 +114,8 @@ namespace CourseProject
                 var exit = exitMarker.position;
                 float exitDistance = Vector2.Distance(new Vector2(player.x, player.z), new Vector2(exit.x, exit.z));
                 if (exitDistance > 1.1f) exitArmed = true;
-                if (exitArmed && exitDistance < 0.75f)
+                if (exitArmed && exitDistance < 0.75f &&
+                    (route == null || route.IsInsideExit(player)))
                 {
                     escaped = true;
                     SetStatus("MISSION COMPLETE\nRETURN FOR REPLAY");
@@ -143,7 +147,7 @@ namespace CourseProject
         [ContextMenu("Reset Solo Mission")]
         public void ResetMission()
         {
-            if (inserted && playerHead != null && playerHead.position.x >= 3.0f)
+            if (route == null && inserted && playerHead != null && playerHead.position.x >= 3.0f)
             {
                 SetStatus("RETURN THROUGH HATCH\nTO RESET MISSION");
                 return;
@@ -154,6 +158,7 @@ namespace CourseProject
                 SetStatus("RELEASE CORE\nTO RESET MISSION");
                 return;
             }
+            if (route != null) route.ReturnPlayerToStart();
             if (hatchMotion != null)
             {
                 StopCoroutine(hatchMotion);
@@ -184,7 +189,18 @@ namespace CourseProject
             socketIndicator.sharedMaterial = standbyMaterial;
             socketLight.color = new Color(1f, 0.46f, 0.10f);
             hatchLight.color = new Color(0.12f, 0.40f, 1f);
-            SetStatus("STATION OFFLINE\nGRAB THE CORE");
+            SetStatus(route != null ? "POWER OFFLINE\nRETRIEVE CORE FROM UPPER BAY" : "STATION OFFLINE\nGRAB THE CORE");
+        }
+
+        public void RecoverLostCore()
+        {
+            if (inserted || coreGrab.GrabPoints.Count > 0) return;
+            coreBody.linearVelocity = Vector3.zero;
+            coreBody.angularVelocity = Vector3.zero;
+            coreBody.position = coreStartPosition;
+            coreBody.rotation = coreStartRotation;
+            hasBeenGrabbed = false;
+            SetStatus("CORE RECOVERED\nCHECK UPPER BAY");
         }
 
         private IEnumerator OpenHatchSequence()

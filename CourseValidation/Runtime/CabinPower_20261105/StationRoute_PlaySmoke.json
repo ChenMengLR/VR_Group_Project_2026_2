@@ -1,0 +1,33 @@
+{
+    "generatedUtc": "2026-11-05T04:48:13.1739679Z",
+    "scope": "Windowed Unity Play with Meta XR Simulator. Synthetic Grabbable pointer events and absolute locomotion; real lifecycle, physics and hatch coroutine. Not physical controller or Quest playtesting.",
+    "passed": true,
+    "checks": [
+        "Simulator XR device active",
+        "Locomotor initializes grounded on new entrance deck",
+        "Core remains on elevated supply bench after twelve seconds of physics",
+        "Initial mission has closed hatch",
+        "Cabin begins on emergency power",
+        "Synthetic pointer select acquires core through production Grabbable",
+        "Picking up the core does not energize the cabin",
+        "Acquisition switches route sign to amber return route",
+        "Reset waits while core is held",
+        "Release completes deferred reset and returns player to entrance",
+        "Core dropped outside map is restored to upper supply bench",
+        "Release into existing coupler secures core before hatch opening; body=(1.85, 1.04, 1.30), transform=(1.85, 1.04, 1.30), status=POWER RESTORED\nSECURING CORE",
+        "Docking starts restoration at the coupler circuit",
+        "Real hatch coroutine completes and clears passage",
+        "All three cabin circuits restored",
+        "Powered route displays green evacuation stage",
+        "Entering bounded exit completes mission",
+        "Reset from exit side returns player safely and reseals hatch",
+        "Reset restores reusable core at upper bench",
+        "Reset from the exit returns the cabin to emergency power",
+        "Second cycle reaches animated intermediate state",
+        "Mid-animation reset cancels pending opening",
+        "Mid-recovery reset cancels cabin restoration"
+    ],
+    "error": "",
+    "unexpectedErrors": 0,
+    "knownMrukLogDecodeExceptions": 1
+}

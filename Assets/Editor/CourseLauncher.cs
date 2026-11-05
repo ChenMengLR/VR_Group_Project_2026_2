@@ -86,8 +86,18 @@ namespace CourseSetup
             RequireWindowsSimulatorTarget();
             EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Deactivate");
             SetDesktopStartup(true);
-            EditorSceneManager.OpenScene(Week06TeamUIBuilder.ScenePath);
+            EditorSceneManager.OpenScene(System.IO.File.Exists(StationRouteBuilder.ScenePath)
+                ? StationRouteBuilder.ScenePath : Week06TeamUIBuilder.ScenePath);
             Debug.Log("Station ready for Quest Link / Air Link. Connect Quest to the PC Meta Link runtime, then press Play. Left stick moves; left Menu opens controls.");
+        }
+
+        [MenuItem("Course/Exploration Level/Open Recovery Route - Simulator", priority = 6)]
+        public static void OpenRecoveryRoute()
+        {
+            Guard(); RequireWindowsSimulatorTarget(); SetDesktopStartup(true);
+            EditorSceneManager.OpenScene(StationRouteBuilder.ScenePath);
+            EditorApplication.ExecuteMenuItem("Meta/Meta XR Simulator/Activate");
+            Debug.Log("Recovery route ready: follow blue up the ramp, carry the core down the other side, restore the airlock.");
         }
 
         private static void Guard()
