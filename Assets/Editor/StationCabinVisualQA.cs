@@ -11,7 +11,7 @@ namespace CourseSetup
 {
     public static class StationCabinVisualQA
     {
-        public static string Output => Path.Combine(StationHardwarePreview.Output, "CabinPower_20261105");
+        public static string Output => StationGravityLeverBuilder.Output;
 
         [Serializable] private sealed class Report
         {

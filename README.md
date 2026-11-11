@@ -1,5 +1,11 @@
 # VR Project 2026 2
 
+**第十周材料与新版论文（2026-11-11）**　[本周材料入口](Docs/Week10/README.md)包含 0.6.0 Quest APK、低重力与拉杆交互的前后变化、自动演示与验证记录，以及四页英文论文的 [PDF](Docs/Paper_20261111/Wang_LostStation_CreativeAward_20261111.pdf) 和 [Word](Docs/Paper_20261111/Wang_LostStation_CreativeAward_20261111.docx)。作者于 11 月 11 日确认：已使用 Quest 2 经 Link／Air Link 试玩新版，个人没有眩晕等不适。这是非正式个人体验，原生 APK 独立运行、量化舒适性与同学首次使用测试仍待验证。当前场景为 `Station_RecoveryRoute`，须在供电恢复后拉动门旁拉杆开门；以下旧周次记录保留各自版本语境。
+
+**2026-11-09 低重力与手动舱门**　探索关卡新增 A 键短推进、X 键制动，以及松手后缓慢漂浮的核心。插入核心完成供电后，握住门旁拉杆并向下拉到底，才会启动双扇舱门。左摇杆控制移动和空中方向，右摇杆负责转向与传送。电脑模拟器可用 Space 推进、Ctrl 制动。打开 `Course > Exploration Level > Open Recovery Route - Simulator` 后按 Play。操作菜单中的说明已同步。见[运行验证](CourseValidation/Runtime/GravityLever_20261109/GravityLever_PlaySmoke.json)及[10 秒自动输入演示](CourseValidation/Runtime/GravityLever_20261109/Lever_Automated_Play.mp4)。这些记录来自 Unity Play 与 Meta XR Simulator，Quest 实体手柄操作和舒适度仍需戴头显体验。
+
+本次 [Quest 安装包 0.6.0](Deliverables/LowGravity/Wang_LostStation_0.6.0_Quest.apk) 已构建，并通过签名、版本、场景和新增组件的[包内核验](CourseValidation/Runtime/GravityLever_20261109/Quest_Apk_Verification.json)。重新构建可使用 `Course > Exploration Level > Build Low Gravity Quest APK`。Unity 当前已切回 Windows；此 APK 尚待安装到实体 Quest 复测。
+
 **第九周小组作业（2026-11-05）**　[Quest APK、问题记录与复测结果](Docs/Week09/README.md)。其中列出了新版关卡的模拟器验证和待补的 Quest 2 独立运行测试。
 
 **2026-11-05 飞船内舱与供电更新**　探索环线采用原创舱壁、甲板和设备柜贴图，舷窗可以看到轨道下方的行星。开场启用琥珀色应急照明，蓝色灯带指向取芯路线。将核心插入插槽后，插槽区、主通道和上层补给区的主灯在 2.4 秒内依次亮起。重置任务即可再次体验。见[同机位游戏截图](CourseValidation/Runtime/CabinPower_20261105/Cabin_Power_Comparison.jpg)和[模拟器验证记录](CourseValidation/Runtime/CabinPower_20261105/StationRoute_PlaySmoke.json)。
@@ -46,7 +52,7 @@ WANG HAOBIN 的 VR 课程项目。第 2 周使用 Unity XR Interaction Toolkit �
 - 右摇杆左右：每次 30° 转向，回中后再次拨动；前推：显示传送弧线，对准有效蓝色平台后松杆传送。摇杆按下可取消。
 - 中指 Grip：按住抓核心，松开释放；食指 Trigger：射线点击 UI。
 - 左手 ≡ 菜单键：打开/关闭操作面板；右手 B：关闭面板。RESET MISSION 在面板或墙面控制台中点击；电脑版仍保留 R。
-- 打开菜单或失去 XR 输入焦点时停用摇杆移动；恢复后先让两个摇杆回中。A/X/Y 无新增任务快捷键，右手 Meta 系统键保留系统用途。
+- 当前探索关卡的 A 键从地面触发一次短推进，按住 X 制动并下降；Y 无任务快捷键。打开菜单、失去 XR 输入焦点或传送时取消漂浮；恢复后先让摇杆回中并松开 A。右手 Meta 系统键保留系统用途。
 
 ## 环境版本
 

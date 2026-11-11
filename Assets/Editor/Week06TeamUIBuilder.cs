@@ -170,6 +170,20 @@ namespace CourseSetup
                 "Builds/Wang_LostStation_Week09_Quest.apk", "WEEK09_QUEST_APK_OK");
         }
 
+        [MenuItem("Course/Exploration Level/Build Low Gravity Quest APK")]
+        public static void BuildLowGravityApk()
+        {
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                throw new InvalidOperationException("Switch Unity to Android before building the Quest APK.");
+            StationRouteBuilder.RequireSavedEditScene();
+            var scene = EditorSceneManager.OpenScene(StationRouteBuilder.ScenePath, OpenSceneMode.Single);
+            var mission = Object.FindFirstObjectByType<SpaceStationMission>();
+            if (mission == null || !mission.RequiresLever || Object.FindFirstObjectByType<StationLowGravity>() == null ||
+                LightmapSettings.lightmaps.Length == 0)
+                throw new InvalidOperationException("The saved scene needs the lever, low-gravity controls and baked lighting.");
+            BuildQuestScene(scene.path, "0.6.0", 5, "Builds/Wang_LostStation_0.6.0_Quest.apk", "LOW_GRAVITY_QUEST_APK_OK");
+        }
+
         private static void BuildQuestScene(string scenePath, string version, int versionCode, string output, string successMarker)
         {
             PlayerSettings.companyName = "WANG HAOBIN";

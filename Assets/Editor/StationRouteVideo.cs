@@ -180,7 +180,7 @@ namespace CourseSetup
             yield return Walk(new Vector3(-.8f,0,5f));
             yield return Walk(new Vector3(-.8f,0,-.15f));
             yield return Walk(new Vector3(1.25f,0,.15f));
-            Chapter("06  插入供电：等待舱门开启","把核心放进插槽并松开 Grip，等待夹紧、解锁和双门滑开。");
+            Chapter("06  插入核心：恢复舱内供电","把核心放进插槽并松开 Grip，等待舱内照明依次恢复。");
             yield return Look(socket.position,1.3f);autoCarry=false;
             yield return MoveCore(socket.position,socket.rotation,2f);
             yield return .6f;
@@ -188,9 +188,15 @@ namespace CourseSetup
             grab.ProcessPointerEvent(new PointerEvent(7701,PointerEventType.Unhover,pointer));holding=false;
             yield return .15f;
             if(!mission.IsInserted)throw new InvalidOperationException("Insertion failed at "+core.position);
+            if (mission.RequiresLever)
+            {
+                yield return Look(mission.AirlockLever.Pivot.position, 2.7f);
+                Chapter("07  手动解锁：拉下开门拉杆", "握住舱门旁的拉杆并拉到底，启动舱门开启动画。");
+                yield return StationLeverDemo.Pull(mission.AirlockLever, 7702);
+            }
             yield return Look(new Vector3(3.25f,1.4f,.75f),4.2f);
             if(!mission.IsHatchOpen)throw new InvalidOperationException("Hatch did not finish opening");
-            Chapter("07  绿色出口：完成任务","确认门已完全打开，再通过舱门到达出口。");
+            Chapter("08  绿色出口：完成任务","确认门已完全打开，再通过舱门到达出口。");
             yield return Walk(new Vector3(2f,0,.75f));
             yield return Walk(new Vector3(4.45f,0,.75f));
             yield return .5f;if(!mission.IsEscaped)throw new InvalidOperationException("Exit did not complete mission");

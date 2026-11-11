@@ -19,6 +19,8 @@ namespace CourseProject
         [SerializeField] private Transform socket;
         [SerializeField] private Transform playerHead;
         [SerializeField] private Transform exitMarker;
+        [SerializeField] private StationAirlockLever airlockLever;
+        [SerializeField] private StationCabinPower cabinPower;
 
         [Header("Feedback")]
         [SerializeField] private Transform hatch;
@@ -50,11 +52,19 @@ namespace CourseProject
         private GrabInteractable[] controllerGrabTargets;
         private HandGrabInteractable[] handGrabTargets;
         private SpaceStationRoute route;
+        private StationFloatingBody floatingCore;
+        private float powerReadyAt;
 
         public bool IsInserted => inserted;
         public bool IsEscaped => escaped;
         public bool IsHatchOpen => hatchOpen;
         public bool HasAcquiredCore => hasBeenGrabbed;
+        public bool RequiresLever => airlockLever != null;
+        public bool IsHatchOpening => hatchMotion != null;
+        public bool IsPowerReady => inserted &&
+            (cabinPower != null ? cabinPower.Progress >= 1f : Time.time >= powerReadyAt);
+        public bool CanOpenHatch => IsPowerReady && !hatchOpen && hatchMotion == null && !resetPending;
+        public StationAirlockLever AirlockLever => airlockLever;
         public string CurrentStatus => currentStatus;
         public AudioSource HumSource => humSource;
         public AudioSource CueSource => cueSource;
@@ -62,9 +72,16 @@ namespace CourseProject
         public AudioSource ExitCueSource => exitCueSource;
         public AudioClip MissionCompleteClip => missionCompleteClip;
 
+        public void ConfigureAirlockLever(StationAirlockLever lever, StationCabinPower power = null)
+        {
+            airlockLever = lever;
+            cabinPower = power;
+        }
+
         private void Awake()
         {
             route = GetComponent<SpaceStationRoute>();
+            floatingCore = coreBody.GetComponent<StationFloatingBody>();
             legacyControllerReset = GetComponent<SpaceStationControls>() == null;
             coreStartPosition = coreBody.position;
             coreStartRotation = coreBody.rotation;
@@ -108,6 +125,10 @@ namespace CourseProject
                     InsertCore();
                 }
             }
+            else if (RequiresLever && !hatchOpen && hatchMotion == null)
+            {
+                SetStatus(IsPowerReady ? "POWER RESTORED\nPULL AIRLOCK LEVER" : "POWER LINKING\nWAIT FOR LEVER LIGHT");
+            }
             else if (hatchOpen && !escaped && playerHead != null && exitMarker != null)
             {
                 var player = playerHead.position;
@@ -127,9 +148,11 @@ namespace CourseProject
         private void InsertCore()
         {
             inserted = true;
+            powerReadyAt = Time.time + StationCabinPower.RestoreSeconds;
             coreBody.linearVelocity = Vector3.zero;
             coreBody.angularVelocity = Vector3.zero;
             coreBody.isKinematic = true;
+            if (floatingCore != null) floatingCore.ResetFloat();
             coreBody.position = socket.position;
             coreBody.rotation = socket.rotation;
             foreach (var target in controllerGrabTargets) target.enabled = false;
@@ -141,7 +164,17 @@ namespace CourseProject
             SetStatus("POWER RESTORED\nSECURING CORE");
             PlayCue(cueSource, powerRestoredClip);
             StartCoroutine(PulseControllers());
+            if (!RequiresLever) hatchMotion = StartCoroutine(OpenHatchSequence());
+        }
+
+        public bool RequestHatchOpen(StationAirlockLever source)
+        {
+            if (source == null || source != airlockLever || !CanOpenHatch ||
+                !source.IsHeld || source.AngleDegrees < StationAirlockLever.TriggerDegrees)
+                return false;
             hatchMotion = StartCoroutine(OpenHatchSequence());
+            StartCoroutine(PulseControllers());
+            return true;
         }
 
         [ContextMenu("Reset Solo Mission")]
@@ -158,6 +191,7 @@ namespace CourseProject
                 SetStatus("RELEASE CORE\nTO RESET MISSION");
                 return;
             }
+            if (airlockLever != null) airlockLever.ResetLever();
             if (route != null) route.ReturnPlayerToStart();
             if (hatchMotion != null)
             {
@@ -166,6 +200,7 @@ namespace CourseProject
             }
 
             inserted = false;
+            powerReadyAt = 0f;
             escaped = false;
             exitArmed = false;
             resetPending = false;
@@ -179,6 +214,7 @@ namespace CourseProject
             coreBody.angularVelocity = Vector3.zero;
             coreBody.position = coreStartPosition;
             coreBody.rotation = coreStartRotation;
+            if (floatingCore != null) floatingCore.ResetFloat();
             hatch.localPosition = hatchClosedPosition;
             ApplyStandby();
         }
@@ -186,6 +222,7 @@ namespace CourseProject
         private void ApplyStandby()
         {
             if (hardware != null) hardware.ResetHardware();
+            if (airlockLever != null) airlockLever.ResetLever();
             socketIndicator.sharedMaterial = standbyMaterial;
             socketLight.color = new Color(1f, 0.46f, 0.10f);
             hatchLight.color = new Color(0.12f, 0.40f, 1f);
@@ -199,6 +236,7 @@ namespace CourseProject
             coreBody.angularVelocity = Vector3.zero;
             coreBody.position = coreStartPosition;
             coreBody.rotation = coreStartRotation;
+            if (floatingCore != null) floatingCore.ResetFloat();
             hasBeenGrabbed = false;
             SetStatus("CORE RECOVERED\nCHECK UPPER BAY");
         }

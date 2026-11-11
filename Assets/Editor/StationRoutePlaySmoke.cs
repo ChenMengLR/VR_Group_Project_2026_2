@@ -129,6 +129,12 @@ namespace CourseSetup
             Check(mission.IsInserted&&core.isKinematic&&hardware.PassageBlocked,"Release into existing coupler secures core before hatch opening; body="+core.position+", transform="+grab.Transform.position+", status="+mission.CurrentStatus);
             Check(cabin.Progress>0f&&cabin.Progress<1f&&cabin.GetBankPower(0)>cabin.GetBankPower(2),"Docking starts restoration at the coupler circuit");
             yield return new WaitForSeconds(3.1f);
+            if (mission.RequiresLever)
+            {
+                Check(!mission.IsHatchOpen && mission.AirlockLever.IsAvailable, "Restored power awaits a manual lever pull");
+                yield return StationLeverDemo.Pull(mission.AirlockLever, 9902);
+                yield return new WaitForSeconds(3f);
+            }
             Check(mission.IsHatchOpen&&hardware.IsOpen&&!hardware.PassageBlocked,"Real hatch coroutine completes and clears passage");
             Check(cabin.Progress==1f&&cabin.GetBankPower(2)==1f,"All three cabin circuits restored");
             StationCabinVisualQA.CaptureMissionState("Restored");
@@ -139,7 +145,13 @@ namespace CourseSetup
             Check(Vector3.Distance(origin.position,route.StartAnchor.position)<.15f&&!mission.IsEscaped&&!mission.IsInserted&&hardware.PassageBlocked,"Reset from exit side returns player safely and reseals hatch");
             Check(!core.isKinematic&&grab.enabled&&Vector3.Distance(core.position,new Vector3(-5.1f,1.595f,6.9f))<.15f,"Reset restores reusable core at upper bench");
             Check(cabin.Progress==0f,"Reset from the exit returns the cabin to emergency power");
-            yield return SelectMoveRelease();yield return new WaitForSeconds(1.5f);
+            yield return SelectMoveRelease();
+            if (mission.RequiresLever)
+            {
+                yield return new WaitForSeconds(2.7f);
+                yield return StationLeverDemo.Pull(mission.AirlockLever, 9903);
+            }
+            yield return new WaitForSeconds(1.5f);
             Check(hardware.OpenFraction>0&&hardware.OpenFraction<1,"Second cycle reaches animated intermediate state");
             mission.ResetMission();yield return new WaitForSeconds(3.2f);
             Check(!mission.IsHatchOpen&&!mission.IsInserted&&hardware.PassageBlocked,"Mid-animation reset cancels pending opening");

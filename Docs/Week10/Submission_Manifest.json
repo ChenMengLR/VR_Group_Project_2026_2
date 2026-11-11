@@ -1,0 +1,100 @@
+{
+  "submissionDate": "2026-11-11",
+  "project": "Lost Station",
+  "week": 10,
+  "version": "0.6.0",
+  "versionCode": 5,
+  "scope": "Coursework upload: current APK, manuscript and software validation evidence. Native Quest run and peer test are pending.",
+  "files": [
+    {
+      "path": "Deliverables/LowGravity/Wang_LostStation_0.6.0_Quest.apk",
+      "bytes": 112264835,
+      "sha256": "7feeb644a2c78d6dc319c2cd9dcf029172a254e4ccff33c1ef63a789d402a537"
+    },
+    {
+      "path": "Docs/Paper_20261111/Wang_LostStation_CreativeAward_20261111.docx",
+      "bytes": 4629729,
+      "sha256": "5a3623ef6f0f40b19399cf902893aa8e84cc0ff5b992a274e70dc8592b300388"
+    },
+    {
+      "path": "Docs/Paper_20261111/Wang_LostStation_CreativeAward_20261111.pdf",
+      "bytes": 680847,
+      "sha256": "07bc637743c4f7e930cbe5ba40079a4458cde25a0b7b0af21db7e067974bedc6"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Dock_Play_Emergency.png",
+      "bytes": 968328,
+      "sha256": "ee62eae07147d02000de9f1a6b6648f0322028f6827f547fc154611353e32d3e"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Dock_Play_Restored.png",
+      "bytes": 1187303,
+      "sha256": "4b79ab105cfcbe0bc4b922300f67c555dbdb1b3edf14f80057d4e47cf715d960"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Entrance_Play_Emergency.png",
+      "bytes": 1012950,
+      "sha256": "bf9e8f4aad544b8d3943ae6609c7a9b069e1e7cfffa428219df72982955c1ba5"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Entrance_Play_Restored.png",
+      "bytes": 1294543,
+      "sha256": "eff716daed26171a856c07b67415958a7646b067da85c74f35509c6b1099a2ae"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/GravityLever_PlaySmoke.json",
+      "bytes": 3046,
+      "sha256": "b09046f6f5d750cead98e0b97845e439c336d0c947c52e7788f177df493c77b4"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Lever_Automated_Play.mp4",
+      "bytes": 1286243,
+      "sha256": "bc2fdb3c8acf03ac504e4a3204d8d76475a704e0976aaff094d2132e26adb38e"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Lever_EditorPreview.png",
+      "bytes": 544457,
+      "sha256": "bd058741e3a45edcbae242765a62fd7b6be4cd75384c4808710d9e3d7ce1adca"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Lever_Pulled_Hatch_Open.png",
+      "bytes": 596076,
+      "sha256": "fed46d6823680aa561bad93cc2ab144b2d6c4e7c498d04c4a22877e9f180e32a"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Powered_Lever_Closed.png",
+      "bytes": 597002,
+      "sha256": "5b99ea26329d93906e3ea0275906105968ceae347c3f920a0b2d0945057be151"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Quest_Apk_Verification.json",
+      "bytes": 847,
+      "sha256": "e9580ad077794b3a0cd360a57c536e151909076a8dcc01c6017d1fda848f1eb5"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Reset_Locked.png",
+      "bytes": 504160,
+      "sha256": "8d83bb633bc3f6ec2dae922354be4ab8829d26ef39abeb4225fa51a3d522762b"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/StationRoute_PlaySmoke.json",
+      "bytes": 1917,
+      "sha256": "becbce8d03c9ccb473f548a3bf64728aa1879d47f580cb6f9dd54839ab799b57"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/StationRoute_Validation.json",
+      "bytes": 2107,
+      "sha256": "cf76bdaf2301153830471406db357d9aae93eac278cbc8f4dc4738c717844c0f"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Viewport_Play_Emergency.png",
+      "bytes": 994123,
+      "sha256": "404210a1f5867c53a5008319214d2af5f87f30fffa9a774c8724b20fd116b9cf"
+    },
+    {
+      "path": "CourseValidation/Runtime/GravityLever_20261109/Viewport_Play_Restored.png",
+      "bytes": 1206128,
+      "sha256": "16ae7015f799c704b3e5c8fd69e77aa00fb47d521dd71f8f12f637b33c3bc7f9"
+    }
+  ]
+}

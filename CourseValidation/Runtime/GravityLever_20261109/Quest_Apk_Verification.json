@@ -1,0 +1,27 @@
+{
+  "verifiedUtc": "2026-11-08T19:29:23.418425+00:00",
+  "file": "Wang_LostStation_0.6.0_Quest.apk",
+  "bytes": 112264835,
+  "sha256": "7feeb644a2c78d6dc319c2cd9dcf029172a254e4ccff33c1ef63a789d402a537",
+  "package": "com.wanghaobin.loststation",
+  "versionName": "0.6.0",
+  "versionCode": 5,
+  "architecture": "arm64-v8a",
+  "signatureVerified": true,
+  "sameSignerAsWeek09": true,
+  "zipCrcPassed": true,
+  "packagedScene": "Assets/01_Scenes/Station_RecoveryRoute.unity",
+  "packagedObjects": [
+    "GravityAndAirlockInteraction",
+    "AirlockLeverPanel",
+    "LeverHandle",
+    "FloatingSpanner",
+    "FloatingBattery"
+  ],
+  "runtimeTypesFound": [
+    "StationLowGravity",
+    "StationFloatingBody",
+    "StationAirlockLever"
+  ],
+  "scope": "Android package inspection. Physical Quest input, navigation and comfort require headset testing."
+}

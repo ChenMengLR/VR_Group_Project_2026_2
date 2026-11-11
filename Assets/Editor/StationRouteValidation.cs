@@ -75,8 +75,8 @@ namespace CourseSetup
             }
             catch(Exception e){error=e.ToString();Debug.LogError(error);}
             finally{EditorSceneManager.OpenScene(StationRouteBuilder.ScenePath);}
-            Directory.CreateDirectory("CourseValidation/Runtime");
-            File.WriteAllText("CourseValidation/Runtime/StationRoute_Validation.json",JsonUtility.ToJson(new Report{
+            Directory.CreateDirectory(StationGravityLeverBuilder.Output);
+            File.WriteAllText(Path.Combine(StationGravityLeverBuilder.Output, "StationRoute_Validation.json"),JsonUtility.ToJson(new Report{
                 generatedUtc=DateTime.UtcNow.ToString("O"),passed=error==null,checks=checks.ToArray(),error=error},true));
             Debug.Log("STATION_ROUTE_VALIDATION_"+(error==null?"PASS":"FAIL"));
             if(Application.isBatchMode)EditorApplication.Exit(error==null?0:1);

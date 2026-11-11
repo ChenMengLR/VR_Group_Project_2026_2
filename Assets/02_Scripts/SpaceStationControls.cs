@@ -1,6 +1,7 @@
 using Oculus.Interaction.Locomotion;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
 namespace CourseProject
@@ -10,6 +11,7 @@ namespace CourseProject
     public sealed class SpaceStationControls : MonoBehaviour
     {
         public const string Help = "LEFT STICK  Move / strafe\nRIGHT STICK  Left / right: turn 30 degrees\nRIGHT STICK  Forward: aim teleport; release: travel\nGRIP  Hold core; release in docking socket\nTRIGGER  Point and click UI\nLEFT MENU  Controls / reset     B  Close menu";
+        public const string LowGravityHelp = "LEFT STICK  Move / steer     A  Short boost\nX (HOLD)  Brake / settle     RIGHT STICK  Turn / teleport\nGRIP  Carry core / pull airlock lever\nTRIGGER  Point and click UI\nLEFT MENU  Controls / reset     B  Close menu\nSIMULATOR  Space: boost     Ctrl: brake";
         [SerializeField] private FirstPersonLocomotor locomotor;
         [SerializeField] private Transform head;
         [SerializeField] private GameObject rightTeleport;
@@ -22,10 +24,13 @@ namespace CourseProject
         private bool turnArmed;
         private bool requireNeutral = true;
         private bool menuVisible;
+        private StationLowGravity lowGravity;
         public bool MenuVisible => menuVisible;
         public FirstPersonLocomotor Locomotor => locomotor;
         public GameObject RightTeleport => rightTeleport;
         public GameObject MenuPanel => menuPanel;
+        public StationLowGravity LowGravity => lowGravity;
+        public string ActiveHelp => lowGravity != null && lowGravity.isActiveAndEnabled ? LowGravityHelp : Help;
 
         private void Awake()
         {
@@ -35,6 +40,8 @@ namespace CourseProject
             locomotor.GroundDamping = 40f;
             locomotor.SpeedFactor = moveSpeed * locomotor.GroundDamping / locomotor.Acceleration;
             locomotor.FlattenInputVelocity = false; // Already flattened below, including straight up/down gaze.
+            lowGravity = GetComponent<StationLowGravity>();
+            if (lowGravity != null && lowGravity.isActiveAndEnabled) lowGravity.Initialize();
             menuPanel.SetActive(false);
             SetTeleportEnabled(false);
         }
@@ -47,25 +54,37 @@ namespace CourseProject
                 if (OVRInput.GetDown(OVRInput.Button.Start, OVRInput.Controller.LTouch)) ToggleMenu();
                 if (menuVisible && OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) CloseMenu();
             }
+            bool boost = OVRInput.Get(OVRInput.Button.One, OVRInput.Controller.RTouch);
+            bool brake = OVRInput.Get(OVRInput.Button.One, OVRInput.Controller.LTouch);
+            if (Keyboard.current != null)
+            {
+                boost |= Keyboard.current.spaceKey.isPressed;
+                brake |= Keyboard.current.leftCtrlKey.isPressed || Keyboard.current.rightCtrlKey.isPressed;
+            }
             ProcessInput(OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.LTouch),
-                OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch), focused);
+                OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch), focused, boost, brake);
             if (menuVisible && menuStatus != null) menuStatus.text = mission.CurrentStatus;
         }
 
         /// <summary>Shared input path used by hardware and the deterministic editor regression check.</summary>
         public void ProcessInput(Vector2 left, Vector2 right, bool focused)
         {
+            ProcessInput(left, right, focused, false, false);
+        }
+
+        public void ProcessInput(Vector2 left, Vector2 right, bool focused, bool boostHeld, bool brakeHeld)
+        {
             if (!focused || menuVisible)
             {
                 requireNeutral = true;
                 turnArmed = false;
-                StopHorizontalMotion();
+                StopMotion();
                 SetTeleportEnabled(false);
                 return;
             }
             if (requireNeutral)
             {
-                if (left.magnitude > moveDeadzone || right.magnitude > .25f) return;
+                if (left.magnitude > moveDeadzone || right.magnitude > .25f || boostHeld) return;
                 requireNeutral = false;
                 turnArmed = true;
                 SetTeleportEnabled(true);
@@ -74,19 +93,18 @@ namespace CourseProject
             // While aiming a teleport, avoid drifting or turning the target beneath the player.
             if (right.y > .5f)
             {
-                StopHorizontalMotion();
+                StopMotion();
                 turnArmed = false;
                 return;
             }
             Vector2 input = ApplyDeadzone(left, moveDeadzone);
-            if (input.sqrMagnitude > 0f)
+            if (lowGravity != null && lowGravity.isActiveAndEnabled)
             {
-                Vector3 forward = Vector3.ProjectOnPlane(head.forward, Vector3.up);
-                if (forward.sqrMagnitude < .001f)
-                    forward = Vector3.Cross(head.right, Vector3.up);
-                forward.Normalize();
-                Vector3 velocityInput = forward * input.y + Vector3.Cross(Vector3.up, forward) * input.x;
-                locomotor.HandleLocomotionEvent(new LocomotionEvent(GetInstanceID(), velocityInput,
+                lowGravity.ProcessMotion(WorldMoveInput(input), boostHeld, brakeHeld);
+            }
+            else if (input.sqrMagnitude > 0f)
+            {
+                locomotor.HandleLocomotionEvent(new LocomotionEvent(GetInstanceID(), WorldMoveInput(input),
                     LocomotionEvent.TranslationType.Velocity));
             }
             if (right.magnitude < .25f) turnArmed = true;
@@ -96,6 +114,14 @@ namespace CourseProject
                 locomotor.HandleLocomotionEvent(new LocomotionEvent(GetInstanceID(),
                     Quaternion.Euler(0f, Mathf.Sign(right.x) * snapDegrees, 0f), LocomotionEvent.RotationType.Relative));
             }
+        }
+
+        private Vector3 WorldMoveInput(Vector2 input)
+        {
+            Vector3 forward = Vector3.ProjectOnPlane(head.forward, Vector3.up);
+            if (forward.sqrMagnitude < .001f) forward = Vector3.Cross(head.right, Vector3.up);
+            forward.Normalize();
+            return forward * input.y + Vector3.Cross(Vector3.up, forward) * input.x;
         }
 
         public static Vector2 ApplyDeadzone(Vector2 input, float deadzone)
@@ -115,7 +141,7 @@ namespace CourseProject
             menuVisible = true;
             menuPanel.SetActive(true);
             requireNeutral = true;
-            StopHorizontalMotion();
+            StopMotion();
             SetTeleportEnabled(false);
         }
 
@@ -133,6 +159,12 @@ namespace CourseProject
             if (menuStatus != null) menuStatus.text = mission.CurrentStatus;
         }
 
+        public void StopMotion()
+        {
+            if (lowGravity != null && lowGravity.isActiveAndEnabled) lowGravity.CancelMotion();
+            else if (locomotor != null) StopHorizontalMotion();
+        }
+
         private void StopHorizontalMotion()
         {
             var velocity = locomotor.Velocity;
@@ -146,7 +178,7 @@ namespace CourseProject
 
         private void OnDisable()
         {
-            if (locomotor != null) StopHorizontalMotion();
+            StopMotion();
             if (rightTeleport != null) SetTeleportEnabled(false);
             if (menuPanel != null) menuPanel.SetActive(false);
             menuVisible = false;

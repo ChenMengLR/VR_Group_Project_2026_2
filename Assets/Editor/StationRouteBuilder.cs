@@ -164,6 +164,7 @@ namespace CourseSetup
             route.Configure(station.GetComponent<SpaceStationMission>(),station.GetComponent<SpaceStationControls>(),core,
                 spawn,exitVolume,outbound.ToArray(),inbound.ToArray(),blue,amber,green,dim,routeSign);
             StationCabinRefit.Apply(scene);
+            StationGravityLeverBuilder.Apply(scene);
             EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene);
             StationCabinRefit.Bake(scene);
             AssetDatabase.SaveAssets();

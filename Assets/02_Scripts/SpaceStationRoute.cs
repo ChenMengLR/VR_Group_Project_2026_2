@@ -39,14 +39,17 @@ namespace CourseProject
         {
             if (!mission.IsInserted && grab.GrabPoints.Count == 0 && IsCoreOutsideReachableArea())
                 mission.RecoverLostCore();
-            int stage = mission.IsHatchOpen ? 3 : mission.IsInserted ? 2 : mission.HasAcquiredCore ? 1 : 0;
+            int stage = mission.IsHatchOpen ? 5 : mission.IsHatchOpening ? 4 :
+                mission.RequiresLever && mission.IsPowerReady ? 3 : mission.IsInserted ? 2 : mission.HasAcquiredCore ? 1 : 0;
             if (lastStage == stage) return;
             lastStage = stage;
             foreach (var lamp in outboundLights) lamp.sharedMaterial = stage == 0 ? cyan : dim;
-            foreach (var lamp in returnLights) lamp.sharedMaterial = stage >= 2 ? green : stage == 1 ? amber : dim;
+            foreach (var lamp in returnLights) lamp.sharedMaterial = stage == 5 ? green : stage >= 1 ? amber : dim;
             routeSign.text = stage == 0 ? "01 / RECOVER\nFOLLOW BLUE TO UPPER BAY" :
                 stage == 1 ? "02 / RESTORE\nFOLLOW AMBER TO COUPLER" :
-                stage == 2 ? "POWER LINKED\nWAIT FOR AIRLOCK" : "03 / EVACUATE\nGREEN AIRLOCK IS OPEN";
+                stage == 2 ? "POWER LINKING\nWAIT FOR LEVER LIGHT" :
+                stage == 3 ? "03 / RELEASE\nPULL AIRLOCK LEVER" :
+                stage == 4 ? "AIRLOCK OPENING\nPLEASE WAIT" : "04 / EVACUATE\nGREEN AIRLOCK IS OPEN";
         }
 
         public bool IsCoreOutsideReachableArea()
@@ -60,6 +63,7 @@ namespace CourseProject
         public void ReturnPlayerToStart()
         {
             controls.CloseMenu();
+            controls.StopMotion();
             var locomotor = controls.Locomotor;
             locomotor.Velocity = Vector3.zero;
             locomotor.HandleLocomotionEvent(new LocomotionEvent(GetInstanceID(),
