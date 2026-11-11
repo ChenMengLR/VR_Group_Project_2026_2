@@ -1,5 +1,7 @@
 # VR Project 2026 2
 
+**第十周提交回执（2026-11-11）**　最新作业与论文已上传小组 GitHub，材料版本为 `af60019`。Wang 小组的第十周 Notion 卡已填写固定版本链接、日期与正文，状态为 **Submitted**，刷新后核对保存。见[提交回执](Docs/Week10/Submission_Receipt_20261111.md)。
+
 **第十周材料与新版论文（2026-11-11）**　[本周材料入口](Docs/Week10/README.md)包含 0.6.0 Quest APK、低重力与拉杆交互的前后变化、自动演示与验证记录，以及四页英文论文的 [PDF](Docs/Paper_20261111/Wang_LostStation_CreativeAward_20261111.pdf) 和 [Word](Docs/Paper_20261111/Wang_LostStation_CreativeAward_20261111.docx)。作者于 11 月 11 日确认：已使用 Quest 2 经 Link／Air Link 试玩新版，个人没有眩晕等不适。这是非正式个人体验，原生 APK 独立运行、量化舒适性与同学首次使用测试仍待验证。当前场景为 `Station_RecoveryRoute`，须在供电恢复后拉动门旁拉杆开门；以下旧周次记录保留各自版本语境。
 
 **2026-11-09 低重力与手动舱门**　探索关卡新增 A 键短推进、X 键制动，以及松手后缓慢漂浮的核心。插入核心完成供电后，握住门旁拉杆并向下拉到底，才会启动双扇舱门。左摇杆控制移动和空中方向，右摇杆负责转向与传送。电脑模拟器可用 Space 推进、Ctrl 制动。打开 `Course > Exploration Level > Open Recovery Route - Simulator` 后按 Play。操作菜单中的说明已同步。见[运行验证](CourseValidation/Runtime/GravityLever_20261109/GravityLever_PlaySmoke.json)及[10 秒自动输入演示](CourseValidation/Runtime/GravityLever_20261109/Lever_Automated_Play.mp4)。这些记录来自 Unity Play 与 Meta XR Simulator，Quest 实体手柄操作和舒适度仍需戴头显体验。
